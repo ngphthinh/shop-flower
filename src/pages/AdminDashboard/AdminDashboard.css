@@ -1,0 +1,55 @@
+.admin-container {
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #fff1f8 0%, #fff 100%);
+  min-height: 70vh;
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.admin-header h1 {
+  color: #e26d9e;
+  font-size: 2.5rem;
+  margin: 20px 0 10px;
+}
+
+.admin-header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(226, 109, 158, 0.1);
+  transition: 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
+  border-left: 4px solid #e26d9e;
+}
+
+.admin-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(226, 109, 158, 0.2);
+}
+
+.admin-card h3 {
+  color: #e26d9e;
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+}
+
+.admin-card p {
+  color: #666;
+  margin: 0;
+  font-size: 0.95rem;
+}

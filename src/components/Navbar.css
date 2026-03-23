@@ -1,0 +1,66 @@
+/* Auth Links */
+.auth-links {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.auth-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.auth-links a:hover {
+  color: #e26d9e;
+}
+
+/* Auth User Section */
+.auth-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+  font-weight: 500;
+}
+
+.auth-user .logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
+  padding: 4px 8px;
+}
+
+.auth-user .logout-btn:hover {
+  color: #e26d9e;
+  transform: scale(1.1);
+}
+
+.admin-badge {
+  background: linear-gradient(135deg, #f189b7 0%, #e26d9e 100%);
+  color: white !important;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.admin-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(226, 109, 158, 0.3);
+}
+
+.header-nav__item.admin-link {
+  color: #e26d9e;
+  font-weight: 600;
+}
+
+.header-nav__item.admin-link:hover {
+  color: #ff8cb4;
+}

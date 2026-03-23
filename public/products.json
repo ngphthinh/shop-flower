@@ -1,0 +1,964 @@
+[
+  {
+    "id": 1,
+    "name": "Hoa hồng đỏ",
+    "slug": "hoa-hong-do",
+    "price": 200000,
+    "discountPrice": 180000,
+    "stock": 50,
+    "sold": 120,
+    "category": {
+      "id": 1,
+      "name": "Hoa tình yêu"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+    "description": "Bó hoa hồng đỏ tươi, tượng trưng cho tình yêu mãnh liệt và lãng mạn.",
+    "details": {
+      "color": "Đỏ",
+      "size": "30cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.8,
+    "reviewCount": 35,
+    "isFeatured": true,
+    "isNew": false,
+    "createdAt": "2026-03-20T10:00:00Z",
+    "updatedAt": "2026-03-22T12:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Hoa hướng dương",
+    "slug": "hoa-huong-duong",
+    "price": 180000,
+    "discountPrice": 165000,
+    "stock": 42,
+    "sold": 95,
+    "category": {
+      "id": 2,
+      "name": "Hoa chúc mừng"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1470506028280-a011fb34b6f7?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?auto=format&fit=crop&w=800&q=80",
+    "description": "Bó hoa hướng dương vàng rực, gửi thông điệp lạc quan và tích cực.",
+    "details": {
+      "color": "Vàng",
+      "size": "35cm",
+      "material": "Hoa tươi",
+      "origin": "Lâm Đồng"
+    },
+    "rating": 4.7,
+    "reviewCount": 27,
+    "isFeatured": true,
+    "isNew": true,
+    "createdAt": "2026-03-19T08:20:00Z",
+    "updatedAt": "2026-03-22T14:00:00Z"
+  },
+  {
+    "id": 3,
+    "name": "Hoa tulip hồng",
+    "slug": "hoa-tulip-hong",
+    "price": 250000,
+    "discountPrice": 225000,
+    "stock": 36,
+    "sold": 80,
+    "category": {
+      "id": 1,
+      "name": "Hoa tình yêu"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1469259943454-aa100abba749?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=800&q=80",
+    "description": "Tulip hồng nhẹ nhàng, phù hợp làm quà tặng tinh tế và sang trọng.",
+    "details": {
+      "color": "Hồng",
+      "size": "28cm",
+      "material": "Hoa tươi",
+      "origin": "Nhà kính Đà Lạt"
+    },
+    "rating": 4.6,
+    "reviewCount": 18,
+    "isFeatured": false,
+    "isNew": true,
+    "createdAt": "2026-03-18T11:45:00Z",
+    "updatedAt": "2026-03-22T12:30:00Z"
+  },
+  {
+    "id": 5,
+    "name": "Hoa mẫu đơn",
+    "slug": "hoa-mau-don",
+    "price": 300000,
+    "discountPrice": 270000,
+    "stock": 31,
+    "sold": 58,
+    "category": {
+      "id": 4,
+      "name": "Hoa khai trương"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=800&q=80",
+    "description": "Mẫu đơn rực rỡ, biểu trưng cho sự thịnh vượng và may mắn.",
+    "details": {
+      "color": "Đỏ đậm",
+      "size": "38cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.9,
+    "reviewCount": 30,
+    "isFeatured": true,
+    "isNew": false,
+    "createdAt": "2026-03-15T10:30:00Z",
+    "updatedAt": "2026-03-22T11:00:00Z"
+  },
+  {
+    "id": 6,
+    "name": "Hoa cẩm chướng",
+    "slug": "hoa-cam-chuong",
+    "price": 160000,
+    "discountPrice": 145000,
+    "stock": 65,
+    "sold": 102,
+    "category": {
+      "id": 2,
+      "name": "Hoa chúc mừng"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1496065187959-7f07b8353c55?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1496065187959-7f07b8353c55?auto=format&fit=crop&w=800&q=80",
+    "description": "Cẩm chướng nhỏ xinh, tôn lên vẻ đẹp nhẹ nhàng và trong trẻo.",
+    "details": {
+      "color": "Hồng nhạt",
+      "size": "27cm",
+      "material": "Hoa tươi",
+      "origin": "Lâm Đồng"
+    },
+    "rating": 4.5,
+    "reviewCount": 24,
+    "isFeatured": false,
+    "isNew": false,
+    "createdAt": "2026-03-14T07:45:00Z",
+    "updatedAt": "2026-03-22T10:40:00Z"
+  },
+  {
+    "id": 7,
+    "name": "Hoa cúc trắng",
+    "slug": "hoa-cuc-trang",
+    "price": 140000,
+    "discountPrice": 125000,
+    "stock": 74,
+    "sold": 113,
+    "category": {
+      "id": 5,
+      "name": "Hoa chia buồn"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1470506028280-a011fb34b6f7?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1470506028280-a011fb34b6f7?auto=format&fit=crop&w=800&q=80",
+    "description": "Hoa cúc trắng đơn giản, thanh lịch và dễ phối trang trí.",
+    "details": {
+      "color": "Trắng",
+      "size": "26cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.4,
+    "reviewCount": 21,
+    "isFeatured": false,
+    "isNew": false,
+    "createdAt": "2026-03-13T08:15:00Z",
+    "updatedAt": "2026-03-22T09:55:00Z"
+  },
+  {
+    "id": 8,
+    "name": "Hoa lan tím",
+    "slug": "hoa-lan-tim",
+    "price": 320000,
+    "discountPrice": 295000,
+    "stock": 28,
+    "sold": 46,
+    "category": {
+      "id": 6,
+      "name": "Hoa cao cấp"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1591727884968-cc1119d87c8c?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=800&q=80",
+    "description": "Lan tím sang trọng, phù hợp cho quà tặng cao cấp.",
+    "details": {
+      "color": "Tím",
+      "size": "34cm",
+      "material": "Hoa tươi",
+      "origin": "Nhà kính công nghệ cao"
+    },
+    "rating": 4.9,
+    "reviewCount": 16,
+    "isFeatured": true,
+    "isNew": true,
+    "createdAt": "2026-03-12T10:10:00Z",
+    "updatedAt": "2026-03-22T11:20:00Z"
+  },
+  {
+    "id": 9,
+    "name": "Hoa baby",
+    "slug": "hoa-baby",
+    "price": 130000,
+    "discountPrice": 118000,
+    "stock": 88,
+    "sold": 140,
+    "category": {
+      "id": 1,
+      "name": "Hoa tình yêu"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1469259943454-aa100abba749?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1469259943454-aa100abba749?auto=format&fit=crop&w=800&q=80",
+    "description": "Hoa baby nhỏ xinh, thường dùng để mix cùng các loại hoa khác.",
+    "details": {
+      "color": "Trắng",
+      "size": "24cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.6,
+    "reviewCount": 28,
+    "isFeatured": false,
+    "isNew": false,
+    "createdAt": "2026-03-11T09:30:00Z",
+    "updatedAt": "2026-03-22T12:10:00Z"
+  },
+  {
+    "id": 10,
+    "name": "Hoa đồng tiền",
+    "slug": "hoa-dong-tien",
+    "price": 170000,
+    "discountPrice": 152000,
+    "stock": 57,
+    "sold": 89,
+    "category": {
+      "id": 2,
+      "name": "Hoa chúc mừng"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1496065187959-7f07b8353c55?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&w=800&q=80",
+    "description": "Đồng tiền sắc màu tươi sáng, mang thông điệp vui vẻ và hạnh phúc.",
+    "details": {
+      "color": "Đa sắc",
+      "size": "29cm",
+      "material": "Hoa tươi",
+      "origin": "Lâm Đồng"
+    },
+    "rating": 4.5,
+    "reviewCount": 19,
+    "isFeatured": false,
+    "isNew": false,
+    "createdAt": "2026-03-10T07:20:00Z",
+    "updatedAt": "2026-03-22T11:45:00Z"
+  },
+  {
+    "id": 11,
+    "name": "Hoa sen mini",
+    "slug": "hoa-sen-mini",
+    "price": 210000,
+    "discountPrice": 188000,
+    "stock": 34,
+    "sold": 63,
+    "category": {
+      "id": 7,
+      "name": "Hoa nghệ thuật"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=800&q=80",
+    "description": "Sen mini thanh khiết, tạo cảm giác bình yên cho không gian sống.",
+    "details": {
+      "color": "Hồng phấn",
+      "size": "31cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.7,
+    "reviewCount": 14,
+    "isFeatured": true,
+    "isNew": false,
+    "createdAt": "2026-03-09T10:50:00Z",
+    "updatedAt": "2026-03-22T10:30:00Z"
+  },
+  {
+    "id": 12,
+    "name": "Hoa ly vàng",
+    "slug": "hoa-ly-vang",
+    "price": 260000,
+    "discountPrice": 235000,
+    "stock": 39,
+    "sold": 72,
+    "category": {
+      "id": 4,
+      "name": "Hoa khai trương"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1468327768560-75b778cbb551?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=800&q=80",
+    "description": "Hoa ly vàng nở đẹp, hương thơm dễ chịu và bền màu.",
+    "details": {
+      "color": "Vàng",
+      "size": "33cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.8,
+    "reviewCount": 20,
+    "isFeatured": true,
+    "isNew": true,
+    "createdAt": "2026-03-08T08:40:00Z",
+    "updatedAt": "2026-03-22T13:10:00Z"
+  },
+  {
+    "id": 13,
+    "name": "Hoa đó cánh kép",
+    "slug": "hoa-do-canh-kep",
+    "price": 190000,
+    "discountPrice": 171000,
+    "stock": 45,
+    "sold": 88,
+    "category": {
+      "id": 1,
+      "name": "Hoa tình yêu"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+    "description": "Hoa đó cánh kép rực rỡ, tượng trưng cho tình yêu đôi chiều.",
+    "details": {
+      "color": "Đỏ hồng",
+      "size": "32cm",
+      "material": "Hoa tươi",
+      "origin": "Lâm Đồng"
+    },
+    "rating": 4.6,
+    "reviewCount": 26,
+    "isFeatured": false,
+    "isNew": true,
+    "createdAt": "2026-03-23T09:00:00Z",
+    "updatedAt": "2026-03-23T15:30:00Z"
+  },
+  {
+    "id": 14,
+    "name": "Hoa lan hồng",
+    "slug": "hoa-lan-hong",
+    "price": 350000,
+    "discountPrice": 315000,
+    "stock": 25,
+    "sold": 38,
+    "category": {
+      "id": 6,
+      "name": "Hoa cao cấp"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=800&q=80",
+    "description": "Lan hồng quý hiếm, là biểu tượng của sự kiêu sa và quý phái.",
+    "details": {
+      "color": "Hồng sáng",
+      "size": "40cm",
+      "material": "Hoa tươi",
+      "origin": "Nahà kính Đà Lạt"
+    },
+    "rating": 4.9,
+    "reviewCount": 12,
+    "isFeatured": true,
+    "isNew": true,
+    "createdAt": "2026-03-23T10:15:00Z",
+    "updatedAt": "2026-03-23T16:00:00Z"
+  },
+  {
+    "id": 15,
+    "name": "Hoa cúc mùa đông",
+    "slug": "hoa-cuc-mua-dong",
+    "price": 150000,
+    "discountPrice": 135000,
+    "stock": 68,
+    "sold": 105,
+    "category": {
+      "id": 2,
+      "name": "Hoa chúc mừng"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1470506028280-a011fb34b6f7?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1516253593875-0f0dc60952ae?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1470506028280-a011fb34b6f7?auto=format&fit=crop&w=800&q=80",
+    "description": "Hoa cúc mùa đông vàng ấm, mang lại cảm giác ấm áp và thân thiện.",
+    "details": {
+      "color": "Vàng ấm",
+      "size": "28cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.5,
+    "reviewCount": 31,
+    "isFeatured": false,
+    "isNew": false,
+    "createdAt": "2026-03-20T11:30:00Z",
+    "updatedAt": "2026-03-23T14:20:00Z"
+  },
+  {
+    "id": 16,
+    "name": "Hoa cẩm tú cầu",
+    "slug": "hoa-cam-tu-cau",
+    "price": 280000,
+    "discountPrice": 252000,
+    "stock": 41,
+    "sold": 67,
+    "category": {
+      "id": 8,
+      "name": "Hoa bình chứng"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=800&q=80",
+    "description": "Cẩm tú cầu xanh tím, tượng trưng cho tình yêu trường tồn.",
+    "details": {
+      "color": "Xanh tím",
+      "size": "36cm",
+      "material": "Hoa tươi",
+      "origin": "Lâm Đồng"
+    },
+    "rating": 4.7,
+    "reviewCount": 29,
+    "isFeatured": true,
+    "isNew": false,
+    "createdAt": "2026-03-19T08:45:00Z",
+    "updatedAt": "2026-03-23T13:40:00Z"
+  },
+  {
+    "id": 17,
+    "name": "Hoa anh túc đỏ",
+    "slug": "hoa-anh-tuc-do",
+    "price": 175000,
+    "discountPrice": 157500,
+    "stock": 52,
+    "sold": 93,
+    "category": {
+      "id": 5,
+      "name": "Hoa chia buồn"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1469259943454-aa100abba749?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1520763185298-1b434c919abe?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1469259943454-aa100abba749?auto=format&fit=crop&w=800&q=80",
+    "description": "Anh túc đỏ can đảm, tượng trưng cho sự cộng tình và tưởng niệm.",
+    "details": {
+      "color": "Đỏ tươi",
+      "size": "30cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.4,
+    "reviewCount": 17,
+    "isFeatured": false,
+    "isNew": false,
+    "createdAt": "2026-03-18T07:20:00Z",
+    "updatedAt": "2026-03-23T12:55:00Z"
+  },
+  {
+    "id": 18,
+    "name": "Hoa mẫu đơn trắng",
+    "slug": "hoa-mau-don-trang",
+    "price": 310000,
+    "discountPrice": 279000,
+    "stock": 33,
+    "sold": 55,
+    "category": {
+      "id": 4,
+      "name": "Hoa khai trương"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1520763185298-1b434c919abe?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=800&q=80",
+    "description": "Mẫu đơn trắng tinh khôi, tượng trưng cho sự trong sáng và thánh thiện.",
+    "details": {
+      "color": "Trắng",
+      "size": "40cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.8,
+    "reviewCount": 23,
+    "isFeatured": true,
+    "isNew": true,
+    "createdAt": "2026-03-23T09:30:00Z",
+    "updatedAt": "2026-03-23T15:45:00Z"
+  },
+  {
+    "id": 19,
+    "name": "Hoa bông hồng pháp",
+    "slug": "hoa-bong-hong-phap",
+    "price": 240000,
+    "discountPrice": 216000,
+    "stock": 48,
+    "sold": 79,
+    "category": {
+      "id": 1,
+      "name": "Hoa tình yêu"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1517148814418-87f2d2c0e6e9?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+    "description": "Bông hồng Pháp sang trọng, tượng trưng cho tình yêu thăng hoa.",
+    "details": {
+      "color": "Hồng nhung",
+      "size": "35cm",
+      "material": "Hoa tươi",
+      "origin": "Nhà kính Đà Lạt"
+    },
+    "rating": 4.7,
+    "reviewCount": 25,
+    "isFeatured": false,
+    "isNew": true,
+    "createdAt": "2026-03-23T10:45:00Z",
+    "updatedAt": "2026-03-23T16:15:00Z"
+  },
+  {
+    "id": 20,
+    "name": "Hoa loa kèn trắng",
+    "slug": "hoa-loa-ken-trang",
+    "price": 195000,
+    "discountPrice": 175500,
+    "stock": 58,
+    "sold": 91,
+    "category": {
+      "id": 2,
+      "name": "Hoa chúc mừng"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?auto=format&fit=crop&w=800&q=80",
+    "description": "Loa kèn trắng tinh tế, hương thơm nhẹ và tươi mát.",
+    "details": {
+      "color": "Trắng",
+      "size": "29cm",
+      "material": "Hoa tươi",
+      "origin": "Lâm Đồng"
+    },
+    "rating": 4.6,
+    "reviewCount": 20,
+    "isFeatured": false,
+    "isNew": false,
+    "createdAt": "2026-03-21T08:00:00Z",
+    "updatedAt": "2026-03-23T14:30:00Z"
+  },
+  {
+    "id": 21,
+    "name": "Hoa cộng sắc",
+    "slug": "hoa-cong-sac",
+    "price": 205000,
+    "discountPrice": 184500,
+    "stock": 44,
+    "sold": 72,
+    "category": {
+      "id": 7,
+      "name": "Hoa nghệ thuật"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=800&q=80",
+    "description": "Hoa cộng sắc đa dạng màu sắc, tạo sự sống động cho không gian.",
+    "details": {
+      "color": "Đa sắc",
+      "size": "34cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.5,
+    "reviewCount": 18,
+    "isFeatured": false,
+    "isNew": false,
+    "createdAt": "2026-03-17T10:20:00Z",
+    "updatedAt": "2026-03-23T11:40:00Z"
+  },
+  {
+    "id": 22,
+    "name": "Hoa văn syringea xanh",
+    "slug": "hoa-van-syringea-xanh",
+    "price": 225000,
+    "discountPrice": 202500,
+    "stock": 50,
+    "sold": 82,
+    "category": {
+      "id": 3,
+      "name": "Hoa thư giãn"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1591727884968-cc1119d87c8c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1591727884968-cc1119d87c8c?auto=format&fit=crop&w=800&q=80",
+    "description": "Hoa tử đinh hương xanh, hương thơm dịu dàng tạo cảm giác thư thái.",
+    "details": {
+      "color": "Xanh lam",
+      "size": "32cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.7,
+    "reviewCount": 22,
+    "isFeatured": true,
+    "isNew": false,
+    "createdAt": "2026-03-16T09:15:00Z",
+    "updatedAt": "2026-03-23T13:25:00Z"
+  },
+  {
+    "id": 23,
+    "name": "Hoa cây phú quý",
+    "slug": "hoa-cay-phu-quy",
+    "price": 340000,
+    "discountPrice": 306000,
+    "stock": 22,
+    "sold": 41,
+    "category": {
+      "id": 6,
+      "name": "Hoa cao cấp"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1520763185298-1b434c919abe?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=800&q=80",
+    "description": "Cây phú quý may mắn, tượng trưng cho sự thịnh vượng và tài lộc.",
+    "details": {
+      "color": "Xanh lá",
+      "size": "45cm",
+      "material": "Hoa tươi",
+      "origin": "Nhà kính công nghệ cao"
+    },
+    "rating": 4.8,
+    "reviewCount": 15,
+    "isFeatured": true,
+    "isNew": true,
+    "createdAt": "2026-03-23T11:00:00Z",
+    "updatedAt": "2026-03-23T17:20:00Z"
+  },
+  {
+    "id": 24,
+    "name": "Hoa thanh liễu",
+    "slug": "hoa-thanh-lieu",
+    "price": 185000,
+    "discountPrice": 166500,
+    "stock": 56,
+    "sold": 98,
+    "category": {
+      "id": 2,
+      "name": "Hoa chúc mừng"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?auto=format&fit=crop&w=800&q=80",
+    "description": "Thanh liễu trắng nhẹ nhàng, tượng trưng cho sự dịu dàng và mềm mại.",
+    "details": {
+      "color": "Trắng",
+      "size": "25cm",
+      "material": "Hoa tươi",
+      "origin": "Lâm Đồng"
+    },
+    "rating": 4.5,
+    "reviewCount": 28,
+    "isFeatured": false,
+    "isNew": false,
+    "createdAt": "2026-03-15T07:30:00Z",
+    "updatedAt": "2026-03-23T10:50:00Z"
+  },
+  {
+    "id": 25,
+    "name": "Hoa hồng cam",
+    "slug": "hoa-hong-cam",
+    "price": 220000,
+    "discountPrice": 198000,
+    "stock": 46,
+    "sold": 76,
+    "category": {
+      "id": 1,
+      "name": "Hoa tình yêu"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1517148814418-87f2d2c0e6e9?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+    "description": "Hoa hồng cam ấm áp, tượng trưng cho sự lạc quan và yêu đương.",
+    "details": {
+      "color": "Cam",
+      "size": "31cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.6,
+    "reviewCount": 24,
+    "isFeatured": false,
+    "isNew": true,
+    "createdAt": "2026-03-23T08:45:00Z",
+    "updatedAt": "2026-03-23T15:00:00Z"
+  },
+  {
+    "id": 26,
+    "name": "Hoa kỳ lân",
+    "slug": "hoa-ky-lan",
+    "price": 270000,
+    "discountPrice": 243000,
+    "stock": 35,
+    "sold": 59,
+    "category": {
+      "id": 4,
+      "name": "Hoa khai trương"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1519904981063-b0cf448d479e?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=800&q=80",
+    "description": "Kỳ lân tươi tắn, tượng trưng cho sự thịnh vượng và may mắn.",
+    "details": {
+      "color": "Đỏ hồng",
+      "size": "37cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.7,
+    "reviewCount": 19,
+    "isFeatured": true,
+    "isNew": false,
+    "createdAt": "2026-03-14T09:50:00Z",
+    "updatedAt": "2026-03-23T12:40:00Z"
+  },
+  {
+    "id": 27,
+    "name": "Hoa nhân sâm",
+    "slug": "hoa-nhan-sam",
+    "price": 290000,
+    "discountPrice": 261000,
+    "stock": 38,
+    "sold": 64,
+    "category": {
+      "id": 8,
+      "name": "Hoa bình chứng"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=800&q=80",
+    "description": "Nhân sâm tươi sáng, tượng trưng cho sức khỏe và sự bền bỉ.",
+    "details": {
+      "color": "Đỏ sáng",
+      "size": "38cm",
+      "material": "Hoa tươi",
+      "origin": "Nhà kính Đà Lạt"
+    },
+    "rating": 4.8,
+    "reviewCount": 21,
+    "isFeatured": true,
+    "isNew": true,
+    "createdAt": "2026-03-23T12:15:00Z",
+    "updatedAt": "2026-03-23T17:45:00Z"
+  },[
+  {
+    "id": 28,
+    "name": "Hoa sáp hồng hộp trái tim",
+    "slug": "hoa-sap-hong-hop-trai-tim",
+    "price": 260000,
+    "discountPrice": 235000,
+    "stock": 40,
+    "sold": 70,
+    "category": {
+      "id": 9,
+      "name": "Hoa sáp"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1597848212624-e6ac3b7b8a1c?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&w=800&q=80",
+    "description": "Hoa sáp hồng trong hộp trái tim, bền đẹp và ý nghĩa.",
+    "details": {
+      "color": "Hồng",
+      "size": "30cm",
+      "material": "Hoa sáp",
+      "origin": "Thủ công"
+    },
+    "rating": 4.7,
+    "reviewCount": 22,
+    "isFeatured": true,
+    "isNew": true,
+    "createdAt": "2026-03-23T12:00:00Z",
+    "updatedAt": "2026-03-23T12:00:00Z"
+  },
+  {
+    "id": 29,
+    "name": "Bó hoa baby mix màu",
+    "slug": "bo-hoa-baby-mix-mau",
+    "price": 190000,
+    "discountPrice": 170000,
+    "stock": 55,
+    "sold": 85,
+    "category": {
+      "id": 1,
+      "name": "Hoa tình yêu"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1496065187959-7f07b8353c55?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80",
+    "description": "Bó hoa baby nhiều màu, nhẹ nhàng và tinh tế.",
+    "details": {
+      "color": "Đa sắc",
+      "size": "28cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.6,
+    "reviewCount": 30,
+    "isFeatured": false,
+    "isNew": true,
+    "createdAt": "2026-03-23T12:10:00Z",
+    "updatedAt": "2026-03-23T12:10:00Z"
+  },
+  {
+    "id": 30,
+    "name": "Bó hoa cưới trắng",
+    "slug": "bo-hoa-cuoi-trang",
+    "price": 350000,
+    "discountPrice": 315000,
+    "stock": 20,
+    "sold": 40,
+    "category": {
+      "id": 10,
+      "name": "Hoa cưới"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1526045612212-70caf35c14df?auto=format&fit=crop&w=800&q=80",
+    "description": "Bó hoa cưới trắng tinh khôi, sang trọng.",
+    "details": {
+      "color": "Trắng",
+      "size": "35cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.9,
+    "reviewCount": 15,
+    "isFeatured": true,
+    "isNew": false,
+    "createdAt": "2026-03-23T12:20:00Z",
+    "updatedAt": "2026-03-23T12:20:00Z"
+  },
+  {
+    "id": 31,
+    "name": "Hoa sáp lavender",
+    "slug": "hoa-sap-lavender",
+    "price": 220000,
+    "discountPrice": 198000,
+    "stock": 37,
+    "sold": 60,
+    "category": {
+      "id": 9,
+      "name": "Hoa sáp"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1470509037663-253afd7f0f51?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=800&q=80",
+    "description": "Hoa sáp lavender thơm nhẹ, bền lâu.",
+    "details": {
+      "color": "Tím",
+      "size": "30cm",
+      "material": "Hoa sáp",
+      "origin": "Thủ công"
+    },
+    "rating": 4.5,
+    "reviewCount": 18,
+    "isFeatured": false,
+    "isNew": true,
+    "createdAt": "2026-03-23T12:30:00Z",
+    "updatedAt": "2026-03-23T12:30:00Z"
+  },
+  {
+    "id": 32,
+    "name": "Bó hoa mix hồng và baby",
+    "slug": "bo-hoa-mix-hong-baby",
+    "price": 270000,
+    "discountPrice": 243000,
+    "stock": 48,
+    "sold": 77,
+    "category": {
+      "id": 1,
+      "name": "Hoa tình yêu"
+    },
+    "images": [
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=1200&q=80"
+    ],
+    "thumbnail": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+    "description": "Bó hoa kết hợp hồng và baby, hài hòa và lãng mạn.",
+    "details": {
+      "color": "Hồng + Trắng",
+      "size": "32cm",
+      "material": "Hoa tươi",
+      "origin": "Đà Lạt"
+    },
+    "rating": 4.8,
+    "reviewCount": 26,
+    "isFeatured": true,
+    "isNew": true,
+    "createdAt": "2026-03-23T12:40:00Z",
+    "updatedAt": "2026-03-23T12:40:00Z"
+  }
+]
+]
