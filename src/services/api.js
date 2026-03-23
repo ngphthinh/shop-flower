@@ -11,7 +11,33 @@ const api = axios.create({
 // Request interceptor để add token nếu có
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    // Hỗ trợ nhiều cách lưu token trong localStorage để tránh mismatch giữa các module
+    let token = localStorage.getItem("token");
+    if (!token) {
+      const authRaw = localStorage.getItem("auth");
+      if (authRaw) {
+        try {
+          const parsed = JSON.parse(authRaw);
+          token = parsed?.token || token;
+        } catch (e) {
+          // ignore
+        }
+      }
+    }
+
+    if (!token) {
+      // một số nơi lưu user riêng, có thể chứa token
+      const userRaw = localStorage.getItem("user");
+      if (userRaw) {
+        try {
+          const parsedUser = JSON.parse(userRaw);
+          token = parsedUser?.token || token;
+        } catch (e) {
+          // ignore
+        }
+      }
+    }
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
