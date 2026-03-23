@@ -61,7 +61,7 @@ export default function Navbar() {
                 <span className="me-3">{user?.name}</span>
                 {role === "ADMIN" && (
                   <Link to={PATH.adminDashboard} className="admin-badge">
-                    Admin
+                    Thống kê
                   </Link>
                 )}
                 <button
@@ -153,7 +153,7 @@ export default function Navbar() {
           <NavLink
             to={PATH.adminDashboard}
             className="header-nav__item admin-link">
-            Admin
+            Thống kê
           </NavLink>
         )}
       </div>
