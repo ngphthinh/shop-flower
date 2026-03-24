@@ -50,9 +50,17 @@ export default function Navbar() {
               <FaStore /> Tin nổi bật
             </span>
 
-            <span className="d-flex align-items-center gap-1">
-              <FaHeadset /> Hỗ trợ
-            </span>
+            {role === "ADMIN" ? (
+              <Link
+                to={PATH.adminSupport}
+                className="d-flex align-items-center gap-1 text-white text-decoration-none">
+                <FaHeadset /> Hỗ trợ
+              </Link>
+            ) : (
+              <span className="d-flex align-items-center gap-1">
+                <FaHeadset /> Hỗ trợ
+              </span>
+            )}
 
             {/* Auth Section */}
             {isAuthenticated ? (
@@ -153,7 +161,7 @@ export default function Navbar() {
           <NavLink
             to={PATH.adminDashboard}
             className="header-nav__item admin-link">
-            Thống kê
+            Dashboard
           </NavLink>
         )}
       </div>

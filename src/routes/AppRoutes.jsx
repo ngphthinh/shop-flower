@@ -1,4 +1,4 @@
-﻿import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import Home from "../pages/Home/Home";
 import ProductDetail from "../pages/ProductDetail/ProductDetail";
@@ -10,6 +10,7 @@ import Register from "../pages/Register/Register";
 import Checkout from "../pages/Checkout/Checkout";
 import Orders from "../pages/Orders/Orders";
 import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
+import AdminSupport from "../pages/AdminSupport/AdminSupport";
 import NotFound from "../pages/NotFound/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
@@ -63,6 +64,14 @@ export default function AppRoutes() {
           element={
             <AdminRoute>
               <AdminDashboard />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path={PATH.adminSupport}
+          element={
+            <AdminRoute>
+              <AdminSupport />
             </AdminRoute>
           }
         />

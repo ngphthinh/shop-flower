@@ -1,0 +1,647 @@
+.sp-page {
+  padding: 28px 20px;
+  background: linear-gradient(135deg, #fff1f8 0%, #fff 100%);
+  min-height: 75vh;
+}
+
+.sp-header {
+  max-width: 1240px;
+  margin: 0 auto 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.sp-header h1 {
+  margin: 0;
+  color: #e26d9e;
+  font-size: 2rem;
+}
+
+.sp-header p {
+  margin: 6px 0 0;
+  color: #666;
+}
+
+.sp-tabs {
+  max-width: 1240px;
+  margin: 0 auto 16px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sp-tabs button {
+  border: 1px solid rgba(226, 109, 158, 0.25);
+  color: #a05676;
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 700;
+}
+
+.sp-tabs button.active {
+  background: linear-gradient(135deg, #f189b7 0%, #e26d9e 100%);
+  color: #fff;
+  border-color: transparent;
+}
+
+.sp-card {
+  max-width: 1240px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  border-left: 4px solid #e26d9e;
+  box-shadow: 0 8px 28px rgba(226, 109, 158, 0.1);
+  padding: 16px;
+}
+
+.sp-noti-wrap {
+  position: relative;
+}
+
+.sp-noti-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(226, 109, 158, 0.22);
+  background: #fff;
+  color: #e26d9e;
+  position: relative;
+}
+
+.sp-noti-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #e26d9e;
+  color: #fff;
+  border-radius: 999px;
+  min-width: 18px;
+  height: 18px;
+  font-size: 0.72rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.sp-noti-dropdown {
+  position: absolute;
+  right: 0;
+  top: 48px;
+  width: 340px;
+  max-width: 90vw;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(226, 109, 158, 0.18);
+  border: 1px solid rgba(226, 109, 158, 0.18);
+  overflow: hidden;
+  z-index: 20;
+}
+
+.sp-noti-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(255, 241, 248, 0.6);
+}
+
+.sp-noti-head strong {
+  color: #e26d9e;
+}
+
+.sp-noti-head button {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 0.82rem;
+}
+
+.sp-noti-item {
+  width: 100%;
+  border: none;
+  border-top: 1px dashed rgba(226, 109, 158, 0.15);
+  background: #fff;
+  padding: 10px 12px;
+  display: flex;
+  gap: 10px;
+  text-align: left;
+}
+
+.sp-noti-item.is-unread {
+  background: rgba(255, 241, 248, 0.45);
+}
+
+.sp-noti-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sp-noti-icon.ticket,
+.sp-noti-icon.chat {
+  color: #e26d9e;
+  background: rgba(226, 109, 158, 0.12);
+}
+
+.sp-noti-icon.error {
+  color: #c63a3a;
+  background: rgba(198, 58, 58, 0.1);
+}
+
+.sp-noti-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sp-noti-text span {
+  color: #333;
+  font-size: 0.92rem;
+}
+
+.sp-noti-text small {
+  color: #777;
+  font-size: 0.8rem;
+}
+
+.sp-chat-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 14px;
+}
+
+.sp-chat-sidebar {
+  border: 1px solid rgba(226, 109, 158, 0.18);
+  border-radius: 12px;
+  background: #fff;
+  overflow: auto;
+  max-height: 72vh;
+}
+
+.sp-chat-user {
+  width: 100%;
+  border: none;
+  border-bottom: 1px dashed rgba(226, 109, 158, 0.16);
+  background: #fff;
+  padding: 12px;
+  display: flex;
+  gap: 10px;
+  text-align: left;
+}
+
+.sp-chat-user.active {
+  background: rgba(255, 241, 248, 0.55);
+}
+
+.sp-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f189b7 0%, #e26d9e 100%);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.sp-chat-user-meta {
+  min-width: 0;
+  flex: 1;
+}
+
+.sp-chat-user-top,
+.sp-chat-user-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sp-chat-user-top strong {
+  color: #333;
+  font-size: 0.93rem;
+}
+
+.sp-chat-user-top small,
+.sp-chat-user-bottom span {
+  color: #777;
+  font-size: 0.8rem;
+}
+
+.sp-chat-user-bottom span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sp-chat-user-bottom em {
+  font-style: normal;
+  background: #e26d9e;
+  color: #fff;
+  border-radius: 999px;
+  min-width: 18px;
+  height: 18px;
+  font-size: 0.74rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sp-status {
+  margin-top: 3px;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.sp-status.online {
+  color: #189a4c;
+}
+
+.sp-status.offline {
+  color: #9c9c9c;
+}
+
+.sp-chat-main {
+  border: 1px solid rgba(226, 109, 158, 0.18);
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-chat-head {
+  padding: 12px;
+  border-bottom: 1px solid rgba(226, 109, 158, 0.16);
+}
+
+.sp-chat-head h3 {
+  margin: 0;
+  color: #e26d9e;
+}
+
+.sp-chat-head p {
+  margin: 3px 0 0;
+  font-size: 0.86rem;
+}
+
+.sp-chat-head p.online {
+  color: #189a4c;
+}
+
+.sp-chat-head p.offline {
+  color: #8d8d8d;
+}
+
+.sp-chat-body {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 12px;
+  padding: 12px;
+  min-height: 420px;
+}
+
+.sp-chat-messages {
+  overflow: auto;
+  max-height: 460px;
+  padding-right: 6px;
+}
+
+.sp-bubble-row {
+  display: flex;
+  margin-bottom: 9px;
+}
+
+.sp-bubble-row.is-admin {
+  justify-content: flex-end;
+}
+
+.sp-bubble-row.is-user {
+  justify-content: flex-start;
+}
+
+.sp-bubble {
+  max-width: 75%;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.sp-bubble.user {
+  background: rgba(255, 241, 248, 0.8);
+}
+
+.sp-bubble.admin {
+  background: linear-gradient(135deg, #f189b7 0%, #e26d9e 100%);
+  color: #fff;
+}
+
+.sp-bubble p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.sp-bubble small {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.74rem;
+  opacity: 0.9;
+}
+
+.sp-quick-faq {
+  border: 1px solid rgba(226, 109, 158, 0.18);
+  border-radius: 10px;
+  background: rgba(255, 241, 248, 0.45);
+  padding: 10px;
+}
+
+.sp-quick-faq h4 {
+  margin: 0 0 8px;
+  color: #e26d9e;
+  font-size: 0.95rem;
+}
+
+.sp-quick-faq button {
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: 1px solid rgba(226, 109, 158, 0.15);
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.sp-quick-faq button strong {
+  display: block;
+  color: #333;
+  font-size: 0.86rem;
+}
+
+.sp-quick-faq button span {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.sp-chat-input {
+  border-top: 1px solid rgba(226, 109, 158, 0.16);
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+}
+
+.sp-chat-input input {
+  flex: 1;
+  border-radius: 10px;
+  border: 1px solid rgba(226, 109, 158, 0.2);
+  padding: 10px 12px;
+}
+
+.sp-chat-input button,
+.sp-card-actions button,
+.sp-settings-actions button,
+.sp-modal-foot button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #f189b7 0%, #e26d9e 100%);
+  font-weight: 700;
+}
+
+.sp-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.sp-card-head h3 {
+  margin: 0;
+  color: #e26d9e;
+}
+
+.sp-card-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sp-card-actions input,
+.sp-card-actions select {
+  border-radius: 10px;
+  border: 1px solid rgba(226, 109, 158, 0.2);
+  padding: 8px 10px;
+}
+
+.sp-table-wrap {
+  overflow: auto;
+}
+
+.sp-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.sp-table th,
+.sp-table td {
+  border-bottom: 1px dashed rgba(226, 109, 158, 0.18);
+  padding: 10px;
+  text-align: left;
+}
+
+.sp-table th {
+  color: #e26d9e;
+  font-weight: 800;
+  background: rgba(255, 241, 248, 0.6);
+}
+
+.sp-actions button {
+  margin-right: 6px;
+  border: 1px solid rgba(226, 109, 158, 0.22);
+  border-radius: 8px;
+  background: #fff;
+  color: #ab5e7f;
+  padding: 4px 9px;
+}
+
+.sp-logs-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 12px;
+}
+
+.sp-log-row {
+  cursor: pointer;
+}
+
+.sp-log-row.active td {
+  background: rgba(255, 241, 248, 0.5);
+}
+
+.sp-level {
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.sp-level.error {
+  background: rgba(198, 58, 58, 0.11);
+  color: #c63a3a;
+}
+
+.sp-level.warning {
+  background: rgba(192, 128, 9, 0.12);
+  color: #9d6a06;
+}
+
+.sp-level.info {
+  background: rgba(11, 102, 195, 0.1);
+  color: #0b66c3;
+}
+
+.sp-log-detail {
+  border: 1px solid rgba(226, 109, 158, 0.2);
+  border-radius: 10px;
+  padding: 12px;
+  background: #fff;
+}
+
+.sp-log-detail h4 {
+  margin: 0 0 8px;
+  color: #e26d9e;
+}
+
+.sp-log-detail p {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.sp-settings-form {
+  display: grid;
+  gap: 10px;
+}
+
+.sp-settings-form label {
+  display: grid;
+  gap: 6px;
+  color: #666;
+  font-weight: 700;
+}
+
+.sp-settings-form input,
+.sp-settings-form textarea {
+  border-radius: 10px;
+  border: 1px solid rgba(226, 109, 158, 0.2);
+  padding: 10px;
+}
+
+.sp-settings-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.sp-settings-actions span {
+  color: #18884a;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.sp-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.sp-modal {
+  width: min(560px, 100%);
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.sp-modal-head,
+.sp-modal-foot {
+  padding: 12px;
+  border-bottom: 1px solid rgba(226, 109, 158, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sp-modal-head h4 {
+  margin: 0;
+  color: #e26d9e;
+}
+
+.sp-modal-head button {
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+}
+
+.sp-modal-body {
+  padding: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.sp-modal-body label {
+  display: grid;
+  gap: 6px;
+  color: #666;
+  font-weight: 700;
+}
+
+.sp-modal-body input,
+.sp-modal-body textarea {
+  border: 1px solid rgba(226, 109, 158, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.sp-modal-foot {
+  border-top: 1px solid rgba(226, 109, 158, 0.16);
+  border-bottom: none;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.sp-modal-foot button.outline {
+  background: #fff;
+  border: 1px solid rgba(226, 109, 158, 0.26);
+  color: #a45b7b;
+}
+
+@media (max-width: 1100px) {
+  .sp-chat-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sp-chat-sidebar {
+    max-height: 260px;
+  }
+
+  .sp-chat-body {
+    grid-template-columns: 1fr;
+  }
+
+  .sp-logs-layout {
+    grid-template-columns: 1fr;
+  }
+}

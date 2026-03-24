@@ -1,8 +1,6 @@
-import { useSelector } from "react-redux";
 import "./AdminDashboard.css";
 
 export default function AdminDashboard() {
-  const { user } = useSelector((state) => state.auth);
 
   const formatCurrencyVND = (value) =>
     new Intl.NumberFormat("vi-VN", {
@@ -99,7 +97,7 @@ export default function AdminDashboard() {
   return (
     <div className="admin-container">
       <div className="admin-header">
-        <h1>Báo cáo thống kê</h1>
+        <h1>Dashboard</h1>
         <p>Tổng quan doanh thu, đơn hàng và khách hàng</p>
       </div>
 
