@@ -3,6 +3,8 @@ import { Outlet, useLocation } from "react-router-dom";
 import NProgress from "nprogress";
 import Navbar from "../components/Navbar";
 import SiteFooter from "../components/SiteFooter";
+import ErrorBoundary from "../components/ErrorBoundary";
+import ChatWidget from "../components/ChatWidget/ChatWidget";
 
 NProgress.configure({ showSpinner: false, speed: 350 });
 
@@ -26,9 +28,12 @@ export default function MainLayout() {
     <div className="min-vh-100 bg-light-subtle">
       <Navbar />
       <main>
-        <Outlet />
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
       </main>
       <SiteFooter />
+      <ChatWidget />
     </div>
   );
 }

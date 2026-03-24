@@ -19,6 +19,13 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       // Lưu vào localStorage
       localStorage.setItem("auth", JSON.stringify({ user, token, role }));
+      // Đồng bộ một số key khác mà các service khác có thể dùng
+      try {
+        if (token) localStorage.setItem("token", token);
+        if (user) localStorage.setItem("user", JSON.stringify(user));
+      } catch (e) {
+        // ignore storage errors
+      }
     },
     logout: (state) => {
       state.user = null;
