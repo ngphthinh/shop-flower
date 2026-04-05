@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { FaBox, FaClipboardList, FaUsers } from "react-icons/fa6";
 import "./AdminDashboard.css";
-
+import { Link } from "react-router-dom";
+import { PATH } from "../../routes/path";
 export default function AdminDashboard() {
   const { user } = useSelector((state) => state.auth);
 
@@ -13,6 +14,18 @@ export default function AdminDashboard() {
       </div>
 
       <div className="admin-grid">
+        <Link
+          to={PATH.adminProducts}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <div className="admin-card">
+            <h3>
+              <FaBox className="me-2" />
+              Quản lý sản phẩm
+            </h3>
+            <p>CRUD sản phẩm (Create, Read, Update, Delete)</p>
+          </div>
+        </Link>
         <div className="admin-card">
           <h3>
             <FaBox className="me-2" />
