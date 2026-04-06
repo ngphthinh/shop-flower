@@ -9,6 +9,7 @@ import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
 import Checkout from "../pages/Checkout/Checkout";
 import Orders from "../pages/Orders/Orders";
+import OrderDetail from "../pages/Orders/OrderDetail";
 import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
 import NotFound from "../pages/NotFound/NotFound";
 import PrivateRoute from "./PrivateRoute";
@@ -51,6 +52,14 @@ export default function AppRoutes() {
           element={
             <PrivateRoute>
               <Orders />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PATH.orderDetail}
+          element={
+            <PrivateRoute>
+              <OrderDetail />
             </PrivateRoute>
           }
         />

@@ -1,4 +1,4 @@
-﻿import api from "./api";
+import api from "./api";
 
 export const userService = {
   /**
@@ -31,6 +31,9 @@ export const userService = {
   async getOrders() {
     try {
       const response = await api.get("/api/users/orders");
+      if (typeof response.data === 'string' && response.data.trim().startsWith('<')) {
+        throw new Error("backend returned html");
+      }
       return response.data;
     } catch (error) {
       throw error?.response?.data || error;
@@ -43,6 +46,9 @@ export const userService = {
   async getOrder(orderId) {
     try {
       const response = await api.get(`/api/users/orders/${orderId}`);
+      if (typeof response.data === 'string' && response.data.trim().startsWith('<')) {
+        throw new Error("backend returned html");
+      }
       return response.data;
     } catch (error) {
       throw error?.response?.data || error;

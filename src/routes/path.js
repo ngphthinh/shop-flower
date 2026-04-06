@@ -6,6 +6,7 @@
   register: "/register",
   adminDashboard: "/admin/dashboard",
   orders: "/orders",
+  orderDetail: "/orders/:id",
   checkout: "/checkout",
   category: "/category/:id",
   search: "/search",

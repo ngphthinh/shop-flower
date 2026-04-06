@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { userService } from "../../services/userService";
 import { productService } from "../../services/productService";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
+import { PATH } from "../../routes/path";
 import { formatDate } from "../../utils/formatDate";
 import { toast } from "react-toastify";
 
@@ -14,6 +16,7 @@ function formatCurrency(value) {
 }
 
 export default function Orders() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
   const [productsMap, setProductsMap] = useState({});
@@ -101,20 +104,34 @@ export default function Orders() {
                   </div>
                 </div>
               </div>
+              <div className="mb-2 text-end">
+                <button
+                  className="btn btn-sm btn-outline-primary"
+                  onClick={() => {
+                    const id = order.id || order._id;
+                    if (id) navigate(PATH.orderDetail.replace(":id", id));
+                  }}
+                >
+                  Xem chi tiết
+                </button>
+              </div>
 
               <div className="mb-2">
-                {(order.products || order.items || []).map((p) => {
-                  const prod = productsMap[p.id] || {};
-                  const name = prod.name || p.name || `Sản phẩm #${p.id}`;
-                  const price = prod.price || p.price || 0;
+                {(order.products || order.items || []).map((p, idx) => {
+                  const itemId = p.id ?? p.productId ?? p._id ?? p.product_id ?? (p.product && (p.product.id || p.product._id));
+                  const prod = productsMap[itemId] || {};
+                  const name = prod.name || p.name || `Sản phẩm #${itemId ?? idx}`;
+                  const qty = p.quantity ?? p.qty ?? (p.product && p.product.quantity) ?? 1;
+                  const price = prod.price ?? p.price ?? p.unitPrice ?? (p.product && p.product.price) ?? 0;
+                  const key = itemId ?? `${idx}`;
                   return (
-                    <div key={p.id} className="d-flex justify-content-between mb-1">
+                    <div key={key} className="d-flex justify-content-between mb-1">
                       <div>
                         <div className="fw-semibold">{name}</div>
-                        <div className="text-muted small">Số lượng: {p.quantity}</div>
+                        <div className="text-muted small">Số lượng: {qty}</div>
                       </div>
                       <div className="text-end">
-                        <div>{formatCurrency(price * (p.quantity || 1))}</div>
+                        <div>{formatCurrency(price * (qty || 1))}</div>
                       </div>
                     </div>
                   );
