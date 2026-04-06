@@ -12,8 +12,14 @@ import {
   FaHeart,
   FaX,
 } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import { PATH } from "../routes/path";
 
 export default function SiteFooter() {
+  const mapQuery = encodeURIComponent(
+    "12 Nguyễn Văn Bảo, Phường Hạnh Thông, TP.HCM",
+  );
+
   return (
     <footer className="site-footer mt-5">
       <div className="footer-stripe" />
@@ -57,16 +63,16 @@ export default function SiteFooter() {
             </h5>
             <ul className="list-unstyled footer-links">
               <li>
-                <a href="/">Trang chủ</a>
+                <Link to={PATH.home}>Trang chủ</Link>
               </li>
               <li>
-                <a href="/">Bó hoa</a>
+                <Link to={PATH.home}>Bó hoa</Link>
               </li>
               <li>
-                <a href="/">Khuyến mãi</a>
+                <Link to={PATH.home}>Khuyến mãi</Link>
               </li>
               <li>
-                <a href="/">Hoa chậu</a>
+                <Link to={PATH.home}>Hoa chậu</Link>
               </li>
             </ul>
           </div>
@@ -78,16 +84,16 @@ export default function SiteFooter() {
             </h5>
             <ul className="list-unstyled footer-links">
               <li>
-                <a href="/">Giới thiệu</a>
+                <Link to={PATH.about}>Giới thiệu</Link>
               </li>
               <li>
-                <a href="/">Chính sách bảo mật</a>
+                <Link to={PATH.privacy}>Chính sách bảo mật</Link>
               </li>
               <li>
-                <a href="/">Điều khoản dịch vụ</a>
+                <Link to={PATH.terms}>Điều khoản dịch vụ</Link>
               </li>
               <li>
-                <a href="/">Hướng dẫn mua</a>
+                <Link to={PATH.buyingGuide}>Hướng dẫn mua</Link>
               </li>
             </ul>
           </div>
@@ -110,14 +116,14 @@ export default function SiteFooter() {
                 <FaPhone className="contact-icon" />
                 <div>
                   <span className="contact-label">Điện thoại</span>
-                  <p>1800 1143 | +84 938 123 456</p>
+                  <p>+84 345749384</p>
                 </div>
               </div>
               <div className="contact-item">
                 <FaEnvelope className="contact-icon" />
                 <div>
                   <span className="contact-label">Email</span>
-                  <p>support@beautifulflowers.com</p>
+                  <p>phamminhthinh2005@gmail.com</p>
                 </div>
               </div>
             </div>
@@ -134,6 +140,16 @@ export default function SiteFooter() {
                 <FaCreditCard className="me-1" />
                 HDBank
               </span>
+            </div>
+            <div className="map-wrap mt-4">
+              <iframe
+                title="Google Map - vị trí cửa hàng"
+                className="map-embed"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
+              />
             </div>
           </div>
         </div>
@@ -152,10 +168,7 @@ export default function SiteFooter() {
             <div className="col-12 col-md-6 text-center text-md-end">
               <p className="footer-credit">
                 Made with{" "}
-                <FaHeart
-                  className="heart"
-                  style={{ display: "inline", color: "#f07dae" }}
-                />{" "}
+                <FaHeart className="heart" style={{ display: "inline" }} />{" "}
                 for flower lovers
               </p>
             </div>
