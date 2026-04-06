@@ -11,6 +11,7 @@ import Checkout from "../pages/Checkout/Checkout";
 import Orders from "../pages/Orders/Orders";
 import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
 import AdminSupport from "../pages/AdminSupport/AdminSupport";
+import StatisticsDetail from "../pages/Statistics/StatisticsDetail";
 import NotFound from "../pages/NotFound/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
@@ -72,6 +73,14 @@ export default function AppRoutes() {
           element={
             <AdminRoute>
               <AdminSupport />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path={PATH.statisticsDetail}
+          element={
+            <AdminRoute>
+              <StatisticsDetail />
             </AdminRoute>
           }
         />

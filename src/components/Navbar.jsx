@@ -158,11 +158,38 @@ export default function Navbar() {
           </NavLink>
         )}
         {role === "ADMIN" && (
-          <NavLink
-            to={PATH.adminDashboard}
-            className="header-nav__item admin-link">
-            Dashboard
-          </NavLink>
+          <>
+            <NavLink
+              to={PATH.adminDashboard}
+              className="header-nav__item admin-link">
+              Dashboard
+            </NavLink>
+            <div className="header-nav__dropdown">
+              <span className="header-nav__item admin-link">Thống kê</span>
+              <div className="header-nav__dropdown-menu">
+                <NavLink
+                  to={PATH.statisticsRevenue}
+                  className="header-nav__dropdown-item">
+                  Doanh thu
+                </NavLink>
+                <NavLink
+                  to={PATH.statisticsOrders}
+                  className="header-nav__dropdown-item">
+                  Đơn hàng
+                </NavLink>
+                <NavLink
+                  to={PATH.statisticsProducts}
+                  className="header-nav__dropdown-item">
+                  Sản phẩm
+                </NavLink>
+                <NavLink
+                  to={PATH.statisticsCustomers}
+                  className="header-nav__dropdown-item">
+                  Khách hàng
+                </NavLink>
+              </div>
+            </div>
+          </>
         )}
       </div>
     </header>

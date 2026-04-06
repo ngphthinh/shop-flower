@@ -10,4 +10,9 @@ export const PATH = {
   checkout: "/checkout",
   category: "/category/:id",
   search: "/search",
+  statisticsRevenue: "/statistics/revenue",
+  statisticsOrders: "/statistics/orders",
+  statisticsProducts: "/statistics/products",
+  statisticsCustomers: "/statistics/customers",
+  statisticsDetail: "/statistics/:type",
 };
