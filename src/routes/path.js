@@ -6,6 +6,8 @@
   register: "/register",
   adminDashboard: "/admin/dashboard",
   adminProducts: "/admin/products",
+  adminOrders: "/admin/orders",
+  adminUsers: "/admin/users",
   orders: "/orders",
   checkout: "/checkout",
   category: "/category/:id",

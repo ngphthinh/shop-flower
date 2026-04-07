@@ -11,6 +11,8 @@ import Checkout from "../pages/Checkout/Checkout";
 import Orders from "../pages/Orders/Orders";
 import AdminDashboard from "../pages/AdminDashboard/AdminDashboard";
 import ProductManagement from "../pages/AdminDashboard/ProductManagement";
+import OrderManagement from "../pages/AdminDashboard/OrderManagement";
+import UserManagement from "../pages/AdminDashboard/UserManagement";
 import NotFound from "../pages/NotFound/NotFound";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
@@ -72,6 +74,22 @@ export default function AppRoutes() {
           element={
             <AdminRoute>
               <ProductManagement />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path={PATH.adminOrders}
+          element={
+            <AdminRoute>
+              <OrderManagement />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path={PATH.adminUsers}
+          element={
+            <AdminRoute>
+              <UserManagement />
             </AdminRoute>
           }
         />

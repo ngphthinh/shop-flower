@@ -33,7 +33,7 @@
   border-radius: 12px;
   padding: 25px;
   box-shadow: 0 8px 32px rgba(226, 109, 158, 0.1);
-  transition: 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   border-left: 4px solid #e26d9e;
 }
 
@@ -52,4 +52,75 @@
   color: #666;
   margin: 0;
   font-size: 0.95rem;
+}
+
+button[variant="primary"] {
+  background-color: #d63384 !important; /* Hồng đậm */
+  border: 1px solid #d63384 !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 8px 16px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 6px rgba(214, 51, 132, 0.2) !important;
+  transition: all 0.2s ease-in-out !important;
+  cursor: pointer;
+}
+
+button[variant="primary"]:hover {
+  background-color: #c32d77 !important;
+  box-shadow: 0 6px 8px rgba(214, 51, 132, 0.3) !important;
+  transform: translateY(-1px);
+}
+
+button[variant="outline"] {
+  background-color: #f8f9fa !important;
+  border: 1px solid #adb5bd !important;
+  color: #495057 !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+}
+
+button[variant="outline"]:hover {
+  background-color: #e2e6ea !important;
+  color: #212529 !important;
+}
+
+button[variant="danger"] {
+  background-color: #dc3545 !important;
+  border: 1px solid #dc3545 !important;
+  color: white !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+}
+
+button[variant="danger"]:hover {
+  background-color: #a71d2a !important;
+}
+
+button[variant="warning"] {
+  background-color: #ffc107 !important;
+  border: 1px solid #ffc107 !important;
+  color: #212529 !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+}
+
+button[variant="warning"]:hover {
+  background-color: #e0a800 !important;
+}
+
+button[variant="success"] {
+  background-color: #198754 !important;
+  border: 1px solid #198754 !important;
+  color: white !important;
+  padding: 6px 12px !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+}
+
+button[variant="success"]:hover {
+  background-color: #157347 !important;
 }

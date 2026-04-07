@@ -1,245 +1,361 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { FaSearch, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 
-const ProductManagement = () => {
-  // 1. Dữ liệu giả lập ban đầu (Sau này bạn sẽ thay bằng gọi API fetch từ backend)
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Bó Hoa Hồng Tình Yêu",
-      price: 500000,
-      category: "Hoa bó",
-      stock: 15,
-    },
-    {
-      id: 2,
-      name: "Lẵng Hoa Hướng Dương",
-      price: 650000,
-      category: "Hoa lẵng",
-      stock: 8,
-    },
-    {
-      id: 3,
-      name: "Hoa Tulip Hà Lan",
-      price: 120000,
-      category: "Hoa lẻ",
-      stock: 50,
-    },
-  ]);
+// Import components của bạn
+import Button from "../../components/Button/Button.jsx";
+import Modal from "../../components/Modal/Modal.jsx";
+import LoadingSpinner from "../../components/LoadingSpinner.jsx";
 
-  // Các state quản lý Form và Modal
-  const [showForm, setShowForm] = useState(false);
+// Giả định bạn có productService và productSlice
+import * as productService from "../../services/productService.js";
+// import { fetchProducts } from "../../redux/productSlice"; // Mở cmt nếu bạn dùng thunk
+
+export default function ProductManagement() {
+  const dispatch = useDispatch();
+
+  // Lấy state từ Redux (Nếu bạn lưu danh sách ở Redux)
+  // const { products, loading } = useSelector((state) => state.product);
+
+  // Tạm thời dùng local state để quản lý danh sách lấy từ API cho dễ hình dung
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Filter & Search states (Giống trong ảnh thiết kế của bạn)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterCategory, setFilterCategory] = useState("");
+
+  // Modal states
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
-    price: "",
     category: "",
+    price: "",
     stock: "",
+    imageUrl: "", // Thêm trường hình ảnh như trong bảng
   });
 
-  // 2. Xử lý nhập liệu form
+  // --- 1. LẤY DỮ LIỆU (READ) ---
+  const loadProducts = async () => {
+    try {
+      setIsLoading(true);
+      // Nếu dùng Redux Thunk: dispatch(fetchProducts())
+      const response = await productService.getAllProducts();
+      setProducts(response.data || response); // Tùy cấu trúc trả về của API
+    } catch (error) {
+      toast.error("Không thể tải danh sách sản phẩm!");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
+
+  // --- XỬ LÝ LỌC & TÌM KIẾM ---
+  const filteredProducts = products.filter((product) => {
+    const matchSearch = product.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchCategory =
+      filterCategory === "" || product.category === filterCategory;
+    return matchSearch && matchCategory;
+  });
+
+  // --- 2. XỬ LÝ FORM ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // 3. Mở form Thêm mới
-  const handleAddClick = () => {
-    setFormData({ name: "", price: "", category: "", stock: "" });
+  const openAddModal = () => {
+    setFormData({ name: "", category: "", price: "", stock: "", imageUrl: "" });
     setEditingId(null);
-    setShowForm(true);
+    setIsModalOpen(true);
   };
 
-  // 4. Mở form Chỉnh sửa
-  const handleEditClick = (product) => {
+  const openEditModal = (product) => {
     setFormData(product);
     setEditingId(product.id);
-    setShowForm(true);
+    setIsModalOpen(true);
   };
 
-  // 5. Xử lý Xóa
-  const handleDelete = (id) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
-      setProducts(products.filter((p) => p.id !== id));
-    }
-  };
-
-  // 6. Xử lý Lưu (Create & Update)
-  const handleSubmit = (e) => {
+  // --- 3. THÊM & SỬA (CREATE & UPDATE) ---
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editingId) {
-      // Cập nhật (Update)
-      setProducts(
-        products.map((p) =>
-          p.id === editingId ? { ...formData, id: editingId } : p,
-        ),
+    try {
+      if (editingId) {
+        // Cập nhật
+        await productService.updateProduct(editingId, formData);
+        toast.success("Cập nhật sản phẩm thành công!");
+      } else {
+        // Thêm mới
+        await productService.createProduct(formData);
+        toast.success("Thêm sản phẩm thành công!");
+      }
+      setIsModalOpen(false);
+      loadProducts(); // Refresh lại bảng
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Có lỗi xảy ra. Vui lòng thử lại!",
       );
-    } else {
-      // Thêm mới (Create)
-      const newProduct = { ...formData, id: Date.now() }; // Tạo ID ngẫu nhiên
-      setProducts([...products, newProduct]);
     }
-    setShowForm(false);
+  };
+
+  // --- 4. XÓA (DELETE) ---
+  const handleDelete = async (id) => {
+    if (
+      window.confirm(
+        "Bạn có chắc chắn muốn xóa sản phẩm này? Hành động này không thể hoàn tác.",
+      )
+    ) {
+      try {
+        await productService.deleteProduct(id);
+        toast.success("Đã xóa sản phẩm!");
+        loadProducts(); // Refresh lại bảng
+      } catch (error) {
+        toast.error("Không thể xóa sản phẩm lúc này!");
+      }
+    }
   };
 
   return (
-    <div className="container py-4">
-      {/* Bao bọc bằng class product-section từ index.css của bạn */}
-      <div className="product-section">
-        <div className="d-flex justify-content-between align-items-center mb-4 section-heading">
-          <h2 style={{ color: "var(--primary)", margin: 0 }}>
-            Quản lý sản phẩm
-          </h2>
-          <button className="btn btn-success" onClick={handleAddClick}>
-            + Thêm sản phẩm
-          </button>
-        </div>
+    <div className="product-management-container p-4 bg-white rounded shadow-sm">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h3
+          style={{
+            color: "var(--primary-dark)",
+            margin: 0,
+            fontWeight: "bold",
+          }}
+        >
+          Quản lý sản phẩm
+        </h3>
+        <Button
+          variant="primary"
+          onClick={openAddModal}
+          className="d-flex align-items-center gap-2"
+        >
+          <FaPlus /> Thêm sản phẩm
+        </Button>
+      </div>
 
-        {/* Bảng hiển thị danh sách sản phẩm */}
+      {/* Bộ lọc và Tìm kiếm (Theo đúng ảnh mẫu) */}
+      <div className="d-flex gap-3 mb-4">
+        <div className="input-group" style={{ maxWidth: "400px" }}>
+          <span className="input-group-text bg-light border-end-0">
+            <FaSearch color="#888" />
+          </span>
+          <input
+            type="text"
+            className="form-control border-start-0 ps-0"
+            placeholder="Tìm kiếm sản phẩm..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <select
+          className="form-select"
+          style={{ maxWidth: "200px" }}
+          value={filterCategory}
+          onChange={(e) => setFilterCategory(e.target.value)}
+        >
+          <option value="">Tất cả danh mục</option>
+          <option value="Hoa bó">Hoa bó</option>
+          <option value="Hoa lẵng">Hoa lẵng</option>
+          <option value="Hoa giỏ">Hoa giỏ</option>
+          <option value="Lan hồ điệp">Lan hồ điệp</option>
+        </select>
+      </div>
+
+      {/* Bảng Dữ Liệu */}
+      {isLoading ? (
+        <div className="d-flex justify-content-center py-5">
+          <LoadingSpinner />
+        </div>
+      ) : (
         <div className="table-responsive">
-          <table className="table align-middle">
-            <thead>
+          <table className="table table-hover align-middle border">
+            <thead className="table-light">
               <tr>
-                <th>ID</th>
+                <th className="text-center">ID</th>
+                <th className="text-center">Hình ảnh</th>
                 <th>Tên sản phẩm</th>
                 <th>Danh mục</th>
-                <th>Giá (VNĐ)</th>
-                <th>Tồn kho</th>
+                <th>Giá</th>
+                <th className="text-center">Tồn kho</th>
                 <th className="text-center">Hành động</th>
               </tr>
             </thead>
             <tbody>
-              {products.length > 0 ? (
-                products.map((product) => (
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((product) => (
                   <tr key={product.id}>
-                    <td>{product.id}</td>
+                    <td className="text-center text-muted fw-semibold">
+                      #{product.id}
+                    </td>
+                    <td className="text-center">
+                      <img
+                        src={
+                          product.imageUrl || "https://via.placeholder.com/50"
+                        }
+                        alt={product.name}
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                        }}
+                      />
+                    </td>
                     <td className="fw-bold" style={{ color: "var(--text)" }}>
                       {product.name}
                     </td>
-                    <td>{product.category}</td>
-                    <td>{Number(product.price).toLocaleString()}đ</td>
-                    <td>{product.stock}</td>
+                    <td>
+                      <span className="badge bg-light text-dark border">
+                        {product.category}
+                      </span>
+                    </td>
+                    <td className="text-danger fw-bold">
+                      {Number(product.price).toLocaleString()}đ
+                    </td>
                     <td className="text-center">
-                      <button
-                        className="btn btn-outline-secondary btn-sm me-2"
-                        onClick={() => handleEditClick(product)}
+                      <span
+                        className={`badge ${product.stock > 10 ? "bg-success" : "bg-warning"}`}
                       >
-                        Sửa
-                      </button>
-                      <button
-                        className="btn btn-outline-danger btn-sm"
+                        {product.stock}
+                      </span>
+                    </td>
+                    <td className="text-center">
+                      <Button
+                        variant="outline"
+                        className="btn-sm me-2"
+                        onClick={() => openEditModal(product)}
+                        title="Sửa"
+                      >
+                        <FaEdit />
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="btn-sm"
                         onClick={() => handleDelete(product.id)}
+                        title="Xóa"
                       >
-                        Xóa
-                      </button>
+                        <FaTrash />
+                      </Button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="text-center py-4 text-muted">
-                    Chưa có sản phẩm nào.
+                  <td colSpan="7" className="text-center py-5 text-muted">
+                    Không tìm thấy sản phẩm nào phù hợp.
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-      </div>
-
-      {/* Modal/Form Popup đơn giản */}
-      {showForm && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0,0,0,0.5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1050,
-          }}
-        >
-          {/* Sử dụng class product-detail-panel cho box shadow và border radius */}
-          <div
-            className="product-detail-panel"
-            style={{ width: "100%", maxWidth: "500px" }}
-          >
-            <h4 className="mb-4" style={{ color: "var(--primary-dark)" }}>
-              {editingId ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
-            </h4>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label className="form-label">Tên sản phẩm</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label className="form-label">Danh mục</label>
-                <select
-                  className="form-select form-control"
-                  name="category"
-                  value={formData.category}
-                  onChange={handleInputChange}
-                  required
-                >
-                  <option value="">-- Chọn danh mục --</option>
-                  <option value="Hoa bó">Hoa bó</option>
-                  <option value="Hoa lẵng">Hoa lẵng</option>
-                  <option value="Hoa lẻ">Hoa lẻ</option>
-                  <option value="Hoa sự kiện">Hoa sự kiện</option>
-                </select>
-              </div>
-              <div className="row">
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Giá (VNĐ)</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    name="price"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Tồn kho</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    name="stock"
-                    value={formData.stock}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="d-flex justify-content-end gap-2 mt-4">
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary"
-                  onClick={() => setShowForm(false)}
-                >
-                  Hủy
-                </button>
-                <button type="submit" className="btn btn-success">
-                  {editingId ? "Cập nhật" : "Lưu sản phẩm"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
       )}
+
+      {/* Modal Thêm/Sửa */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={editingId ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
+      >
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">
+              Tên sản phẩm <span className="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">
+              Link Hình ảnh (URL)
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              name="imageUrl"
+              value={formData.imageUrl}
+              onChange={handleInputChange}
+              placeholder="https://..."
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">
+              Danh mục <span className="text-danger">*</span>
+            </label>
+            <select
+              className="form-select"
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="">-- Chọn danh mục --</option>
+              <option value="Hoa bó">Hoa bó</option>
+              <option value="Hoa lẵng">Hoa lẵng</option>
+              <option value="Hoa giỏ">Hoa giỏ</option>
+              <option value="Lan hồ điệp">Lan hồ điệp</option>
+            </select>
+          </div>
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <label className="form-label fw-semibold">
+                Giá (VNĐ) <span className="text-danger">*</span>
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                name="price"
+                min="0"
+                value={formData.price}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            <div className="col-md-6 mb-3">
+              <label className="form-label fw-semibold">
+                Tồn kho <span className="text-danger">*</span>
+              </label>
+              <input
+                type="number"
+                className="form-control"
+                name="stock"
+                min="0"
+                value={formData.stock}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
+          <div className="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Hủy bỏ
+            </Button>
+            <Button type="submit" variant="primary">
+              {editingId ? "Cập nhật sản phẩm" : "Lưu sản phẩm"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
-};
-
-export default ProductManagement;
+}
