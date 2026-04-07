@@ -16,12 +16,7 @@
 
 body {
   margin: 0;
-  background: radial-gradient(
-    circle at top,
-    #fff1f8 0%,
-    #fff9fd 48%,
-    #fff 100%
-  );
+  background: radial-gradient(circle at top, #fff1f8 0%, #fff9fd 48%, #fff 100%);
   color: var(--text);
   font-family: "Be Vietnam Pro", sans-serif;
   position: relative;
@@ -56,8 +51,7 @@ body::after {
 }
 
 @keyframes float {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0px);
   }
   50% {
@@ -130,9 +124,7 @@ h6 {
 
 .search-wrap:focus-within {
   border-color: #e78db4;
-  box-shadow:
-    0 0 0 5px rgba(231, 141, 180, 0.18),
-    0 8px 20px rgba(226, 109, 158, 0.12);
+  box-shadow: 0 0 0 5px rgba(231, 141, 180, 0.18), 0 8px 20px rgba(226, 109, 158, 0.12);
   transform: translateY(-2px);
 }
 
@@ -191,9 +183,7 @@ h6 {
   text-decoration: none;
   font-size: 1.1rem;
   box-shadow: var(--shadow-sm);
-  transition:
-    transform 0.22s ease,
-    box-shadow 0.22s ease;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
 
 .cart-pill:hover {
@@ -228,9 +218,7 @@ h6 {
   padding: 8px 14px;
   border-radius: 999px;
   border-bottom: 2px solid transparent;
-  transition:
-    color 0.2s ease,
-    background 0.2s ease;
+  transition: color 0.2s ease, background 0.2s ease;
 }
 
 .header-nav__item:hover {
@@ -321,8 +309,7 @@ h6 {
   min-height: 190px;
   background:
     linear-gradient(120deg, rgba(236, 127, 173, 0.92), rgba(219, 95, 150, 0.9)),
-    url("https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=1400&q=80")
-      center/cover;
+    url("https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=1400&q=80") center/cover;
   box-shadow: 0 10px 32px rgba(226, 109, 158, 0.15);
   position: relative;
   overflow: hidden;
@@ -336,11 +323,7 @@ h6 {
   width: 320px;
   height: 320px;
   border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.28),
-    transparent 62%
-  );
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.28), transparent 62%);
   animation: float 6s ease-in-out infinite;
 }
 
@@ -374,12 +357,7 @@ h6 {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
+  background: linear-gradient(135deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   transform: translateX(-100%);
   transition: transform 0.55s ease;
 }
@@ -426,11 +404,7 @@ h6 {
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 246, 251, 0.45),
-    rgba(255, 255, 255, 0)
-  );
+  background: linear-gradient(180deg, rgba(255, 246, 251, 0.45), rgba(255, 255, 255, 0));
 }
 
 .section-heading h1 {
@@ -450,7 +424,7 @@ h6 {
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
-  transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: 0.35s cubic-bezier(0.4, 0.0, 0.2, 1);
   padding: 6px 12px;
   border-radius: 6px;
 }
@@ -477,12 +451,7 @@ h6 {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   transition: left 0.55s ease;
   z-index: 1;
   pointer-events: none;
@@ -592,12 +561,7 @@ h6 {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
   transform: translateX(-100%);
   transition: transform 0.55s ease;
 }
@@ -999,8 +963,7 @@ h6 {
 }
 
 @keyframes heartbeat {
-  0%,
-  100% {
+  0%, 100% {
     transform: scale(1);
   }
   25% {
@@ -1088,66 +1051,4 @@ h6 {
   .flower-card__image {
     height: 190px;
   }
-}
-/* ============================================================
-   Khu vực sửa lỗi các nút bấm bị mờ, khó nhìn
-============================================================ */
-
-/* 1. Nút chính (ví dụ nút "+ Thêm người dùng") */
-/* Làm cho màu hồng đậm hơn, punchy hơn và thêm bóng đổ */
-.btn-primary {
-  background-color: #d63384 !important; /* Đổi sang tone hồng đậm hẳn (Hot Pink) */
-  border-color: #d63384 !important;
-  color: white !important;
-  font-weight: 600 !important;
-  /* Thêm shadow nhẹ để tạo độ nổi khối 3D */
-  box-shadow: 0 4px 6px rgba(214, 51, 132, 0.2) !important;
-  transition: all 0.2s ease-in-out !important;
-}
-
-.btn-primary:hover {
-  background-color: #c32d77 !important; /* Đậm hơn nữa khi hover */
-  box-shadow: 0 6px 8px rgba(214, 51, 132, 0.3) !important;
-  transform: translateY(-1px); /* Nhích nhẹ lên tạo cảm giác tương tác */
-}
-
-/* 2. Các nút hành động nhỏ trong bảng (Sửa, Xóa, Khóa) */
-/* Tăng kích thước nhẹ và làm cho chúng "đặc" hơn thay vì chỉ có viền */
-.table .btn-sm {
-  padding: 6px 10px !important; /* Tăng diện tích bấm */
-  margin: 0 3px !important;
-  border-width: 2px !important; /* Viền dày hơn */
-}
-
-/* Sửa nút "Sửa" (Outline Secondary) - Hiện tại rất mờ trên nền trắng */
-.btn-outline-secondary,
-.btn-outline {
-  background-color: #f8f9fa !important; /* Thêm nền xám cực nhẹ để nổi trên nền trắng */
-  border-color: #adb5bd !important;
-  color: #495057 !important;
-}
-.btn-outline-secondary:hover,
-.btn-outline:hover {
-  background-color: #e2e6ea !important;
-  color: #212529 !important;
-}
-
-/* Sửa nút "Xóa" (Danger) - Cần màu đỏ rõ ràng hơn */
-.btn-danger {
-  background-color: #dc3545 !important; /* Đỏ chuẩn, không dùng đỏ pastel */
-  border-color: #dc3545 !important;
-  color: white !important;
-}
-.btn-danger:hover {
-  background-color: #a71d2a !important;
-}
-
-/* Sửa nút "Khóa/Mở khóa" (Warning/Success) */
-.btn-warning {
-  background-color: #ffc107 !important; /* Vàng đậm, rõ ràng */
-  border-color: #ffc107 !important;
-  color: #212529 !important; /* Chữ tối trên nền vàng */
-}
-.btn-warning:hover {
-  background-color: #e0a800 !important;
 }
