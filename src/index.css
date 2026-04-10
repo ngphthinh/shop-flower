@@ -837,16 +837,28 @@ h6 {
   transition: all 0.25s ease;
 }
 
-.footer-links li a {
+/* Unified style for both <a>/<Link> and <button> footer links */
+.footer-links li a,
+.footer-links li .footer-link-btn {
   color: #654d5d;
   text-decoration: none;
   transition: all 0.25s ease;
   position: relative;
   display: inline-block;
   line-height: 1.5;
+  font-weight: 500;
+  font-size: 0.95rem;
 }
 
-.footer-links li a::after {
+.footer-links li .footer-link-btn {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.footer-links li a::after,
+.footer-links li .footer-link-btn::after {
   content: "";
   position: absolute;
   bottom: -2px;
@@ -857,12 +869,20 @@ h6 {
   transition: width 0.3s ease;
 }
 
-.footer-links li a:hover::after {
+.footer-links li a:hover::after,
+.footer-links li .footer-link-btn:hover::after {
   width: 100%;
 }
 
-.footer-links li a:hover {
+.footer-links li a:hover,
+.footer-links li .footer-link-btn:hover {
   color: #f07dae;
+}
+
+.footer-links li .footer-link-btn:focus-visible {
+  outline: 3px solid rgba(240, 125, 174, 0.35);
+  outline-offset: 3px;
+  border-radius: 8px;
 }
 
 /* Contact Items */

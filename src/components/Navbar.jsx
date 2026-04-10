@@ -58,7 +58,12 @@ export default function Navbar() {
             {isAuthenticated ? (
               <div className="auth-user">
                 <FaUser className="me-2" />
-                <span className="me-3">{user?.name}</span>
+                <Link
+                  to={PATH.profile}
+                  className="me-3"
+                  style={{ color: "white", textDecoration: "none" }}>
+                  {user?.name || user?.email || "Tài khoản"}
+                </Link>
                 {role === "ADMIN" && (
                   <Link to={PATH.adminDashboard} className="admin-badge">
                     Admin
@@ -147,6 +152,11 @@ export default function Navbar() {
         {isAuthenticated && (
           <NavLink to={PATH.orders} className="header-nav__item">
             Đơn hàng
+          </NavLink>
+        )}
+        {isAuthenticated && (
+          <NavLink to={PATH.profile} className="header-nav__item">
+            Tài khoản
           </NavLink>
         )}
         {role === "ADMIN" && (
