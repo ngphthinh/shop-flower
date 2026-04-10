@@ -33,7 +33,9 @@ function QuickStats({ cards, onNavigate }) {
             {card.title}
           </div>
           <div className="admin-mini-card__value">
-            {card.type === "currency" ? formatCurrencyVND(card.value) : card.value}
+            {card.type === "currency"
+              ? formatCurrencyVND(card.value)
+              : card.value}
           </div>
           <div className="admin-mini-card__note">{card.note}</div>
         </div>
@@ -65,7 +67,9 @@ function RevenueChart({ series }) {
           ))}
         </div>
         <div className="admin-bar-chart">
-          <div className="admin-bar-chart__plot" aria-label="Biểu đồ doanh thu theo thời gian">
+          <div
+            className="admin-bar-chart__plot"
+            aria-label="Biểu đồ doanh thu theo thời gian">
             {series.map((point) => (
               <div className="admin-bar" key={point.label}>
                 <div className="admin-bar__value">
@@ -116,7 +120,8 @@ function TopProductsCard({ products, onClick }) {
               <div className="admin-top-rank">{index + 1}</div>
               <div className="admin-top-name">{product.name}</div>
               <div className="admin-top-sold">
-                {product.sold} <span className="admin-top-sold__label">đã bán</span>
+                {product.sold}{" "}
+                <span className="admin-top-sold__label">đã bán</span>
               </div>
             </div>
           ))
@@ -168,7 +173,8 @@ function RecentOrdersTable({ orders, onClick }) {
                   <td>{order.time}</td>
                   <td>{formatCurrencyVND(order.total)}</td>
                   <td>
-                    <span className={`admin-pill admin-pill--${statusClassName(order.status)}`}>
+                    <span
+                      className={`admin-pill admin-pill--${statusClassName(order.status)}`}>
                       {order.status}
                     </span>
                   </td>
@@ -304,7 +310,9 @@ export default function AdminDashboard() {
       <div className="admin-grid">
         <div className="admin-card admin-card--report">
           {loading && (
-            <div className="admin-state admin-state--loading">Đang tải dữ liệu Dashboard...</div>
+            <div className="admin-state admin-state--loading">
+              Đang tải dữ liệu Dashboard...
+            </div>
           )}
           {!loading && !!error && (
             <div className="admin-state admin-state--error">

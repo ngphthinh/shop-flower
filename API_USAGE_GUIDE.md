@@ -107,31 +107,21 @@ const results = await productService.searchProducts("hoa hồng");
 const categoryProducts = await productService.getProductsByCategory(categoryId);
 ```
 
-### Auth Service:
+### Auth Service (Authentication):
+
+Note: Authentication state is managed via Redux (`useSelector(state => state.auth)`).
+The app uses localStorage with single "auth" key storing `{user, role}`.
 
 ```jsx
 import { authService } from "../../services/authService";
 
-// Đăng nhập
-const { token, user } = await authService.login("email@test.com", "password");
+// Đăng nhập - returns user, role, token from mock API
+const result = await authService.login("email@test.com", "password");
+// Redux authSlice automatically handles storing to localStorage
 
-// Đăng xuất
+// Đăng xuất 
 await authService.logout();
-
-// Đăng ký
-await authService.register({
-  email: "new@test.com",
-  password: "password",
-  name: "User Name",
-});
-
-// Lấy user hiện tại
-const currentUser = await authService.getCurrentUser();
-
-// Kiểm tra đã login
-if (authService.isAuthenticated()) {
-  // User đã login
-}
+// Redux authSlice automatically clears localStorage
 ```
 
 ### User Service:

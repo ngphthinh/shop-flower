@@ -8,50 +8,32 @@ const api = axios.create({
   },
 });
 
-// Request interceptor để add token nếu có
+// Request interceptor
 api.interceptors.request.use(
   (config) => {
-    // Hỗ trợ nhiều cách lưu token trong localStorage để tránh mismatch giữa các module
-    let token = localStorage.getItem("token");
-    if (!token) {
-      const authRaw = localStorage.getItem("auth");
-      if (authRaw) {
-        try {
-          const parsed = JSON.parse(authRaw);
-          token = parsed?.token || token;
-        } catch (e) {
-          // ignore
-        }
+    // Lấy auth data từ localStorage - nếu cần token, sỞf thêm ở đây
+    const auth = localStorage.getItem("auth");
+    if (auth) {
+      try {
+        const parsed = JSON.parse(auth);
+        // Nếu backend cần JWT, thêm: config.headers.Authorization = `Bearer ${parsed.token}`;
+      } catch (e) {
+        // ignore
       }
-    }
-
-    if (!token) {
-      // một số nơi lưu user riêng, có thể chứa token
-      const userRaw = localStorage.getItem("user");
-      if (userRaw) {
-        try {
-          const parsedUser = JSON.parse(userRaw);
-          token = parsedUser?.token || token;
-        } catch (e) {
-          // ignore
-        }
-      }
-    }
-
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   (error) => Promise.reject(error),
 );
+  (error) => Promise.reject(error),
+);
 
-// Response interceptor để xử lý lỗi global
+// Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("token");
+      localStorage.removeItem("auth");
       window.location.href = "/login";
     }
     return Promise.reject(error);

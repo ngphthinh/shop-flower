@@ -52,16 +52,12 @@ export default function Login() {
       );
 
       if (user) {
-        // Giả lập JWT token
-        const token = `jwt_token_${Date.now()}_${Math.random()}`;
-
         dispatch(
           login({
             user: {
               email: user.email,
               name: user.name,
             },
-            token,
             role: user.role,
           }),
         );

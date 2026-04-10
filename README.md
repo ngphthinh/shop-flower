@@ -49,7 +49,6 @@ src/
 │       └── userSlice.js
 │
 ├── hooks/                  # Custom hooks
-│   ├── useAuth.js
 │   └── useFetch.js
 │
 ├── utils/                  # Hàm tiện ích

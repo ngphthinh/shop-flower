@@ -37,7 +37,6 @@ export default function Orders() {
         if (!mounted) return;
         setProductsMap(map);
 
-        // If there are mock orders saved locally, prefer showing them (dev-friendly)
         const stored = localStorage.getItem("mock_orders");
         const mock = stored ? JSON.parse(stored) : [];
         if (Array.isArray(mock) && mock.length > 0) {
@@ -46,19 +45,16 @@ export default function Orders() {
           try {
             const data = await userService.getOrders();
             if (!mounted) return;
-            // API might return an array or an object; coerce to array safely
             if (Array.isArray(data)) {
               setOrders(data);
             } else if (data && Array.isArray(data.orders)) {
               setOrders(data.orders);
             } else if (data) {
-              // single order object
               setOrders([data]);
             } else {
               setOrders([]);
             }
           } catch (err) {
-            // fallback to localStorage mock orders
             const stored2 = localStorage.getItem("mock_orders");
             const mock2 = stored2 ? JSON.parse(stored2) : [];
             setOrders(Array.isArray(mock2) ? mock2.reverse() : []);
