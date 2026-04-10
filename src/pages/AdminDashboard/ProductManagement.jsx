@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
@@ -14,31 +14,27 @@ import {
 } from "react-icons/fa";
 import { PATH } from "../../routes/path";
 
-// Import components của bạn
 import Button from "../../components/Button/Button.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
 import LoadingSpinner from "../../components/LoadingSpinner.jsx";
 
-// Giả định bạn có productService và productSlice
-import * as productService from "../../services/productService.js";
-// import { fetchProducts } from "../../redux/productSlice"; // Mở cmt nếu bạn dùng thunk
+import "./ProductManagement.css";
+import hoaNaiveImg from "../../assets/naivie.jpg";
+import hoaBoHoaCucImg from "../../assets/bo-hoa-cuc-tana-little-tana.jpg";
+import no_image from "../../assets/no_image.png";
+
+const LOCAL_STORAGE_KEY = "shopflower_products";
 
 export default function ProductManagement() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // Lấy state từ Redux (Nếu bạn lưu danh sách ở Redux)
-  // const { products, loading } = useSelector((state) => state.product);
-
-  // Tạm thời dùng local state để quản lý danh sách lấy từ API cho dễ hình dung
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Filter & Search states (Giống trong ảnh thiết kế của bạn)
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("");
 
-  // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
@@ -46,20 +42,41 @@ export default function ProductManagement() {
     category: "",
     price: "",
     stock: "",
-    imageUrl: "", // Thêm trường hình ảnh như trong bảng
+    imageUrl: "",
   });
 
-  // --- 1. LẤY DỮ LIỆU (READ) ---
-  const loadProducts = async () => {
+  const loadProducts = () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      // Nếu dùng Redux Thunk: dispatch(fetchProducts())
-      const response = await productService.getAllProducts();
-      setProducts(response.data || response); // Tùy cấu trúc trả về của API
+      const storedProducts = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (storedProducts) {
+        setProducts(JSON.parse(storedProducts));
+      } else {
+        const initialData = [
+          {
+            id: 1712800000000,
+            name: "Naive",
+            price: 460000,
+            category: "Hoa bó",
+            stock: 15,
+            imageUrl: hoaNaiveImg,
+          },
+          {
+            id: 1712800000001,
+            name: "Little Tana",
+            price: 350000,
+            category: "Hoa lẵng",
+            stock: 8,
+            imageUrl: hoaBoHoaCucImg,
+          },
+        ];
+        setProducts(initialData);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(initialData));
+      }
     } catch (error) {
-      toast.error("Không thể tải danh sách sản phẩm!");
+      toast.error("Lỗi khi tải dữ liệu từ hệ thống!");
     } finally {
-      setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 300);
     }
   };
 
@@ -67,7 +84,6 @@ export default function ProductManagement() {
     loadProducts();
   }, []);
 
-  // --- XỬ LÝ LỌC & TÌM KIẾM ---
   const filteredProducts = products.filter((product) => {
     const matchSearch = product.name
       .toLowerCase()
@@ -77,10 +93,25 @@ export default function ProductManagement() {
     return matchSearch && matchCategory;
   });
 
-  // --- 2. XỬ LÝ FORM ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        toast.warning("Vui lòng chọn ảnh có kích thước dưới 2MB!");
+        e.target.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, imageUrl: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const openAddModal = () => {
@@ -95,39 +126,42 @@ export default function ProductManagement() {
     setIsModalOpen(true);
   };
 
-  // --- 3. THÊM & SỬA (CREATE & UPDATE) ---
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     try {
+      let updatedProducts;
       if (editingId) {
-        // Cập nhật
-        await productService.updateProduct(editingId, formData);
+        updatedProducts = products.map((p) =>
+          p.id === editingId ? { ...formData, id: editingId } : p,
+        );
         toast.success("Cập nhật sản phẩm thành công!");
       } else {
-        // Thêm mới
-        await productService.createProduct(formData);
+        const newProduct = { ...formData, id: Date.now() };
+        updatedProducts = [...products, newProduct];
         toast.success("Thêm sản phẩm thành công!");
       }
+      setProducts(updatedProducts);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedProducts));
       setIsModalOpen(false);
-      loadProducts(); // Refresh lại bảng
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Có lỗi xảy ra. Vui lòng thử lại!",
-      );
+      toast.error("Có lỗi xảy ra khi lưu dữ liệu. Vui lòng thử lại!");
     }
   };
 
-  // --- 4. XÓA (DELETE) ---
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     if (
       window.confirm(
         "Bạn có chắc chắn muốn xóa sản phẩm này? Hành động này không thể hoàn tác.",
       )
     ) {
       try {
-        await productService.deleteProduct(id);
+        const updatedProducts = products.filter((p) => p.id !== id);
+        setProducts(updatedProducts);
+        localStorage.setItem(
+          LOCAL_STORAGE_KEY,
+          JSON.stringify(updatedProducts),
+        );
         toast.success("Đã xóa sản phẩm!");
-        loadProducts(); // Refresh lại bảng
       } catch (error) {
         toast.error("Không thể xóa sản phẩm lúc này!");
       }
@@ -137,144 +171,51 @@ export default function ProductManagement() {
   return (
     <div className="product-management-container p-4 bg-white rounded shadow-sm">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h3
-          style={{
-            color: "var(--primary-dark)",
-            margin: 0,
-            fontWeight: "bold",
-          }}>
-          Quản lý sản phẩm
-        </h3>
+        <h3 className="page-title">Quản lý sản phẩm</h3>
         <Button
           variant="primary"
           onClick={openAddModal}
-          className="d-flex align-items-center gap-2">
+          className="d-flex align-items-center gap-2"
+        >
           <FaPlus /> Thêm sản phẩm
         </Button>
       </div>
 
-      {/* Admin Navigation Menu */}
-      <div
-        style={{
-          display: "flex",
-          gap: "12px",
-          marginBottom: "30px",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          maxWidth: "1200px",
-          margin: "0 auto 30px",
-        }}>
+      <div className="admin-nav-menu">
         <button
           type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
+          className="admin-nav-btn"
           onClick={() => navigate(PATH.adminDashboard)}
-          title="Dashboard">
-          <FaChartBar style={{ marginRight: "8px" }} /> Dashboard
+          title="Dashboard"
+        >
+          <FaChartBar /> Dashboard
         </button>
         <button
           type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
+          className="admin-nav-btn"
           onClick={() => navigate(PATH.adminOrders)}
-          title="Quản lý đơn hàng">
-          <FaShoppingCart style={{ marginRight: "8px" }} /> Đơn hàng
+          title="Quản lý đơn hàng"
+        >
+          <FaShoppingCart /> Đơn hàng
         </button>
         <button
           type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
+          className="admin-nav-btn"
           onClick={() => navigate(PATH.adminUsers)}
-          title="Quản lý người dùng">
-          <FaUsers style={{ marginRight: "8px" }} /> Người dùng
+          title="Quản lý người dùng"
+        >
+          <FaUsers /> Người dùng
         </button>
         <button
           type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
+          className="admin-nav-btn"
           onClick={() => navigate(PATH.adminSupport)}
-          title="Support">
-          <FaHeadset style={{ marginRight: "8px" }} /> Support
+          title="Support"
+        >
+          <FaHeadset /> Support
         </button>
       </div>
 
-      {/* Bộ lọc và Tìm kiếm (Theo đúng ảnh mẫu) */}
       <div className="d-flex gap-3 mb-4">
         <div className="input-group" style={{ maxWidth: "400px" }}>
           <span className="input-group-text bg-light border-end-0">
@@ -292,7 +233,8 @@ export default function ProductManagement() {
           className="form-select"
           style={{ maxWidth: "200px" }}
           value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}>
+          onChange={(e) => setFilterCategory(e.target.value)}
+        >
           <option value="">Tất cả danh mục</option>
           <option value="Hoa bó">Hoa bó</option>
           <option value="Hoa lẵng">Hoa lẵng</option>
@@ -301,11 +243,8 @@ export default function ProductManagement() {
         </select>
       </div>
 
-      {/* Bảng Dữ Liệu */}
       {isLoading ? (
-        <div className="d-flex justify-content-center py-5">
-          <LoadingSpinner />
-        </div>
+        <LoadingSpinner />
       ) : (
         <div className="table-responsive">
           <table className="table table-hover align-middle border">
@@ -325,20 +264,13 @@ export default function ProductManagement() {
                 filteredProducts.map((product) => (
                   <tr key={product.id}>
                     <td className="text-center text-muted fw-semibold">
-                      #{product.id}
+                      #{String(product.id).slice(-5)}
                     </td>
                     <td className="text-center">
                       <img
-                        src={
-                          product.imageUrl || "https://via.placeholder.com/50"
-                        }
+                        src={product.imageUrl || no_image}
                         alt={product.name}
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          objectFit: "cover",
-                          borderRadius: "8px",
-                        }}
+                        className="product-table-img"
                       />
                     </td>
                     <td className="fw-bold" style={{ color: "var(--text)" }}>
@@ -354,7 +286,10 @@ export default function ProductManagement() {
                     </td>
                     <td className="text-center">
                       <span
-                        className={`badge ${product.stock > 10 ? "bg-success" : "bg-warning"}`}>
+                        className={`badge ${
+                          product.stock > 10 ? "bg-success" : "bg-warning"
+                        }`}
+                      >
                         {product.stock}
                       </span>
                     </td>
@@ -363,14 +298,16 @@ export default function ProductManagement() {
                         variant="outline"
                         className="btn-sm me-2"
                         onClick={() => openEditModal(product)}
-                        title="Sửa">
+                        title="Sửa"
+                      >
                         <FaEdit />
                       </Button>
                       <Button
                         variant="danger"
                         className="btn-sm"
                         onClick={() => handleDelete(product.id)}
-                        title="Xóa">
+                        title="Xóa"
+                      >
                         <FaTrash />
                       </Button>
                     </td>
@@ -388,11 +325,11 @@ export default function ProductManagement() {
         </div>
       )}
 
-      {/* Modal Thêm/Sửa */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingId ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}>
+        title={editingId ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
+      >
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label fw-semibold">
@@ -407,19 +344,27 @@ export default function ProductManagement() {
               required
             />
           </div>
+
           <div className="mb-3">
-            <label className="form-label fw-semibold">
-              Link Hình ảnh (URL)
-            </label>
+            <label className="form-label fw-semibold">Hình ảnh sản phẩm</label>
             <input
-              type="text"
+              type="file"
               className="form-control"
-              name="imageUrl"
-              value={formData.imageUrl}
-              onChange={handleInputChange}
-              placeholder="https://..."
+              accept="image/*"
+              onChange={handleImageUpload}
+              key={isModalOpen ? "open" : "closed"}
             />
+            {formData.imageUrl && (
+              <div className="mt-3 text-center">
+                <img
+                  src={formData.imageUrl}
+                  alt="Preview"
+                  className="product-image-preview"
+                />
+              </div>
+            )}
           </div>
+
           <div className="mb-3">
             <label className="form-label fw-semibold">
               Danh mục <span className="text-danger">*</span>
@@ -429,7 +374,8 @@ export default function ProductManagement() {
               name="category"
               value={formData.category}
               onChange={handleInputChange}
-              required>
+              required
+            >
               <option value="">-- Chọn danh mục --</option>
               <option value="Hoa bó">Hoa bó</option>
               <option value="Hoa lẵng">Hoa lẵng</option>
@@ -471,7 +417,8 @@ export default function ProductManagement() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => setIsModalOpen(false)}>
+              onClick={() => setIsModalOpen(false)}
+            >
               Hủy bỏ
             </Button>
             <Button type="submit" variant="primary">

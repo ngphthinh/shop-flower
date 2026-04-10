@@ -15,57 +15,75 @@ import {
 } from "react-icons/fa";
 import { PATH } from "../../routes/path";
 
-// Import components dùng chung
 import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import "../AdminDashboard/AdminDashboard.css";
-// Giả định bạn sẽ dùng userService để gọi API
-// import * as userService from "../../services/userService";
+
+const LOCAL_STORAGE_KEY = "shopflower_users";
 
 export default function UserManagement() {
   const navigate = useNavigate();
-  // 1. Dữ liệu giả lập (Sau này lấy từ API qua userService)
-  const [users, setUsers] = useState([
-    {
-      id: 1,
-      name: "Admin Trưởng",
-      email: "admin@shopflower.com",
-      role: "ADMIN",
-      status: "ACTIVE",
-    },
-    {
-      id: 2,
-      name: "Nguyễn Văn Khách",
-      email: "khachhang1@gmail.com",
-      role: "USER",
-      status: "ACTIVE",
-    },
-    {
-      id: 3,
-      name: "Trần Thị Cấm",
-      email: "spammer@yahoo.com",
-      role: "USER",
-      status: "LOCKED",
-    },
-  ]);
 
+  const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterRole, setFilterRole] = useState("");
 
-  // Modal states
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: "", // Chỉ hiện password khi thêm mới
+    password: "",
     role: "USER",
     status: "ACTIVE",
   });
 
-  // --- LỌC & TÌM KIẾM ---
+  const loadUsers = () => {
+    setIsLoading(true);
+    try {
+      const storedUsers = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (storedUsers) {
+        setUsers(JSON.parse(storedUsers));
+      } else {
+        const initialData = [
+          {
+            id: 1,
+            name: "Admin Trưởng",
+            email: "admin@shopflower.com",
+            role: "ADMIN",
+            status: "ACTIVE",
+          },
+          {
+            id: 2,
+            name: "Nguyễn Văn Khách",
+            email: "khachhang1@gmail.com",
+            role: "USER",
+            status: "ACTIVE",
+          },
+          {
+            id: 3,
+            name: "Trần Thị Cấm",
+            email: "spammer@yahoo.com",
+            role: "USER",
+            status: "LOCKED",
+          },
+        ];
+        setUsers(initialData);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(initialData));
+      }
+    } catch (error) {
+      toast.error("Lỗi khi tải dữ liệu người dùng!");
+    } finally {
+      setTimeout(() => setIsLoading(false), 300);
+    }
+  };
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
   const filteredUsers = users.filter((user) => {
     const matchSearch =
       user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -74,7 +92,6 @@ export default function UserManagement() {
     return matchSearch && matchRole;
   });
 
-  // --- XỬ LÝ FORM ---
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -93,48 +110,56 @@ export default function UserManagement() {
   };
 
   const openEditModal = (user) => {
-    setFormData({ ...user, password: "" }); // Không hiển thị password cũ
+    setFormData({ ...user, password: "" });
     setEditingId(user.id);
     setIsModalOpen(true);
   };
 
-  // --- THÊM & SỬA ---
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     try {
+      let updatedUsers;
+
       if (editingId) {
-        // Cập nhật (Update) - Gọi API: await userService.updateUser(editingId, formData)
-        setUsers(
-          users.map((u) =>
-            u.id === editingId ? { ...formData, id: editingId } : u,
-          ),
+        updatedUsers = users.map((u) =>
+          u.id === editingId ? { ...formData, id: editingId } : u,
         );
         toast.success("Cập nhật thông tin người dùng thành công!");
       } else {
-        // Thêm mới (Create) - Gọi API: await userService.createUser(formData)
         const newUser = { ...formData, id: Date.now() };
-        setUsers([...users, newUser]);
+        updatedUsers = [...users, newUser];
         toast.success("Đã thêm người dùng mới!");
       }
+
+      setUsers(updatedUsers);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUsers));
       setIsModalOpen(false);
     } catch (error) {
       toast.error("Có lỗi xảy ra, vui lòng thử lại!");
     }
   };
 
-  // --- KHÓA / MỞ KHÓA TÀI KHOẢN ---
   const handleToggleStatus = (id, currentStatus) => {
     const newStatus = currentStatus === "ACTIVE" ? "LOCKED" : "ACTIVE";
-    setUsers(users.map((u) => (u.id === id ? { ...u, status: newStatus } : u)));
+    const updatedUsers = users.map((u) =>
+      u.id === id ? { ...u, status: newStatus } : u,
+    );
+
+    setUsers(updatedUsers);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUsers));
+
     toast.info(
       `Tài khoản đã được ${newStatus === "ACTIVE" ? "mở khóa" : "khóa"}.`,
     );
   };
 
-  // --- XÓA ---
   const handleDelete = (id) => {
     if (window.confirm("Bạn có chắc chắn muốn xóa tài khoản này vĩnh viễn?")) {
-      setUsers(users.filter((u) => u.id !== id));
+      const updatedUsers = users.filter((u) => u.id !== id);
+
+      setUsers(updatedUsers);
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUsers));
+
       toast.success("Đã xóa tài khoản!");
     }
   };
@@ -147,139 +172,54 @@ export default function UserManagement() {
             color: "var(--primary-dark)",
             fontWeight: "bold",
             margin: 0,
-          }}>
+          }}
+        >
           Quản lý người dùng
         </h3>
         <Button
           variant="primary"
           onClick={openAddModal}
-          className="d-flex align-items-center gap-2">
+          className="d-flex align-items-center gap-2"
+        >
           <FaUserPlus /> Thêm người dùng
         </Button>
       </div>
 
-      {/* Admin Navigation Menu */}
-      <div
-        style={{
-          display: "flex",
-          gap: "12px",
-          marginBottom: "30px",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          maxWidth: "1200px",
-          margin: "0 auto 30px",
-        }}>
+      <div className="admin-nav-menu">
         <button
           type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
+          className="admin-nav-btn"
           onClick={() => navigate(PATH.adminDashboard)}
-          title="Dashboard">
-          <FaChartBar style={{ marginRight: "8px" }} /> Dashboard
+          title="Dashboard"
+        >
+          <FaChartBar /> Dashboard
         </button>
         <button
           type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
+          className="admin-nav-btn"
           onClick={() => navigate(PATH.adminProducts)}
-          title="Quản lý sản phẩm">
-          <FaBox style={{ marginRight: "8px" }} /> Sản phẩm
+          title="Quản lý sản phẩm"
+        >
+          <FaBox /> Sản phẩm
         </button>
         <button
           type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
+          className="admin-nav-btn"
           onClick={() => navigate(PATH.adminOrders)}
-          title="Quản lý đơn hàng">
-          <FaShoppingCart style={{ marginRight: "8px" }} /> Đơn hàng
+          title="Quản lý đơn hàng"
+        >
+          <FaShoppingCart /> Đơn hàng
         </button>
         <button
           type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
+          className="admin-nav-btn"
           onClick={() => navigate(PATH.adminSupport)}
-          title="Support">
-          <FaHeadset style={{ marginRight: "8px" }} /> Support
+          title="Support"
+        >
+          <FaHeadset /> Support
         </button>
       </div>
 
-      {/* Thanh tìm kiếm và lọc */}
       <div className="d-flex gap-3 mb-4">
         <div className="input-group" style={{ maxWidth: "400px" }}>
           <span className="input-group-text bg-light border-end-0">
@@ -297,14 +237,14 @@ export default function UserManagement() {
           className="form-select"
           style={{ maxWidth: "200px" }}
           value={filterRole}
-          onChange={(e) => setFilterRole(e.target.value)}>
+          onChange={(e) => setFilterRole(e.target.value)}
+        >
           <option value="">Tất cả vai trò</option>
           <option value="ADMIN">Quản trị viên (ADMIN)</option>
           <option value="USER">Khách hàng (USER)</option>
         </select>
       </div>
 
-      {/* Bảng dữ liệu */}
       {isLoading ? (
         <LoadingSpinner />
       ) : (
@@ -331,13 +271,15 @@ export default function UserManagement() {
                     <td>{user.email}</td>
                     <td className="text-center">
                       <span
-                        className={`badge ${user.role === "ADMIN" ? "bg-danger" : "bg-primary"}`}>
+                        className={`badge ${user.role === "ADMIN" ? "bg-danger" : "bg-primary"}`}
+                      >
                         {user.role}
                       </span>
                     </td>
                     <td className="text-center">
                       <span
-                        className={`badge ${user.status === "ACTIVE" ? "bg-success" : "bg-secondary"}`}>
+                        className={`badge ${user.status === "ACTIVE" ? "bg-success" : "bg-secondary"}`}
+                      >
                         {user.status === "ACTIVE" ? "Hoạt động" : "Đã khóa"}
                       </span>
                     </td>
@@ -352,21 +294,24 @@ export default function UserManagement() {
                           user.status === "ACTIVE"
                             ? "Khóa tài khoản"
                             : "Mở khóa"
-                        }>
+                        }
+                      >
                         {user.status === "ACTIVE" ? <FaLock /> : <FaLockOpen />}
                       </Button>
                       <Button
                         variant="outline"
                         className="btn-sm me-2"
                         onClick={() => openEditModal(user)}
-                        title="Sửa">
+                        title="Sửa"
+                      >
                         <FaEdit />
                       </Button>
                       <Button
                         variant="danger"
                         className="btn-sm"
                         onClick={() => handleDelete(user.id)}
-                        title="Xóa">
+                        title="Xóa"
+                      >
                         <FaTrash />
                       </Button>
                     </td>
@@ -384,11 +329,11 @@ export default function UserManagement() {
         </div>
       )}
 
-      {/* Modal Form Thêm/Sửa */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingId ? "Sửa thông tin người dùng" : "Thêm người dùng mới"}>
+        title={editingId ? "Sửa thông tin người dùng" : "Thêm người dùng mới"}
+      >
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label fw-semibold">
@@ -423,7 +368,6 @@ export default function UserManagement() {
             )}
           </div>
 
-          {/* Chỉ yêu cầu mật khẩu khi tạo mới */}
           {!editingId && (
             <div className="mb-3">
               <label className="form-label fw-semibold">
@@ -447,7 +391,8 @@ export default function UserManagement() {
                 className="form-select"
                 name="role"
                 value={formData.role}
-                onChange={handleInputChange}>
+                onChange={handleInputChange}
+              >
                 <option value="USER">Khách hàng (USER)</option>
                 <option value="ADMIN">Quản trị viên (ADMIN)</option>
               </select>
@@ -458,7 +403,8 @@ export default function UserManagement() {
                 className="form-select"
                 name="status"
                 value={formData.status}
-                onChange={handleInputChange}>
+                onChange={handleInputChange}
+              >
                 <option value="ACTIVE">Hoạt động</option>
                 <option value="LOCKED">Khóa</option>
               </select>
@@ -469,7 +415,8 @@ export default function UserManagement() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => setIsModalOpen(false)}>
+              onClick={() => setIsModalOpen(false)}
+            >
               Hủy
             </Button>
             <Button type="submit" variant="primary">

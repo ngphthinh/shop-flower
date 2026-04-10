@@ -8,48 +8,71 @@ import {
   FaBox,
   FaUsers,
   FaHeadset,
+  FaTrash,
 } from "react-icons/fa";
 import { PATH } from "../../routes/path";
 
-// Import components dùng chung của bạn
 import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal";
 import LoadingSpinner from "../../components/LoadingSpinner";
-import { formatDate } from "../../utils/formatDate"; // Bạn đã gửi file này
+import { formatDate } from "../../utils/formatDate";
 import "../AdminDashboard/AdminDashboard.css";
-// Giả định bạn sẽ tạo orderService.js tương tự productService.js
-// import * as orderService from "../../services/orderService";
+
+const LOCAL_STORAGE_KEY = "shopflower_orders";
 
 export default function OrderManagement() {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState([
-    {
-      id: "ORD001",
-      customerName: "Nguyễn Văn A",
-      totalPrice: 1250000,
-      status: "PENDING",
-      createdAt: "2024-03-20T10:30:00Z",
-      items: [
-        { name: "Bó Hồng Đỏ", quantity: 2, price: 500000 },
-        { name: "Hoa Hướng Dương", quantity: 1, price: 250000 },
-      ],
-    },
-    {
-      id: "ORD002",
-      customerName: "Trần Thị B",
-      totalPrice: 450000,
-      status: "SHIPPING",
-      createdAt: "2024-03-19T15:20:00Z",
-      items: [{ name: "Lẵng hoa khai trương", quantity: 1, price: 450000 }],
-    },
-  ]);
 
+  const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [filterStatus, setFilterStatus] = useState("");
 
-  // Hàm chuyển đổi nhãn trạng thái để hiển thị
+  const loadOrders = () => {
+    setIsLoading(true);
+    try {
+      const storedOrders = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (storedOrders) {
+        setOrders(JSON.parse(storedOrders));
+      } else {
+        const initialData = [
+          {
+            id: "ORD001",
+            customerName: "Nguyễn Văn A",
+            totalPrice: 1250000,
+            status: "PENDING",
+            createdAt: "2024-03-20T10:30:00Z",
+            items: [
+              { name: "Bó Hồng Đỏ", quantity: 2, price: 500000 },
+              { name: "Hoa Hướng Dương", quantity: 1, price: 250000 },
+            ],
+          },
+          {
+            id: "ORD002",
+            customerName: "Trần Thị B",
+            totalPrice: 450000,
+            status: "SHIPPING",
+            createdAt: "2024-03-19T15:20:00Z",
+            items: [
+              { name: "Lẵng hoa khai trương", quantity: 1, price: 450000 },
+            ],
+          },
+        ];
+        setOrders(initialData);
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(initialData));
+      }
+    } catch (error) {
+      toast.error("Lỗi khi tải dữ liệu đơn hàng!");
+    } finally {
+      setTimeout(() => setIsLoading(false), 300);
+    }
+  };
+
+  useEffect(() => {
+    loadOrders();
+  }, []);
+
   const getStatusLabel = (status) => {
     switch (status) {
       case "PENDING":
@@ -70,16 +93,80 @@ export default function OrderManagement() {
     setIsModalOpen(true);
   };
 
-  const handleUpdateStatus = async (orderId, newStatus) => {
+  const saveOrderChanges = (updatedOrder) => {
+    const updatedOrders = orders.map((o) =>
+      o.id === updatedOrder.id ? updatedOrder : o,
+    );
+    setOrders(updatedOrders);
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedOrders));
+    setSelectedOrder(updatedOrder);
+  };
+
+  const handleUpdateStatus = (orderId, newStatus) => {
     try {
-      // Gọi API: await orderService.updateOrderStatus(orderId, newStatus);
-      setOrders(
-        orders.map((o) => (o.id === orderId ? { ...o, status: newStatus } : o)),
-      );
-      toast.success(`Đã cập nhật đơn hàng ${orderId} thành ${newStatus}`);
-      if (selectedOrder) setIsModalOpen(false);
+      const orderToUpdate = orders.find((o) => o.id === orderId);
+      saveOrderChanges({ ...orderToUpdate, status: newStatus });
+      const statusText = getStatusLabel(newStatus).text;
+      toast.success(`Đã cập nhật đơn hàng thành "${statusText}"`);
     } catch (error) {
       toast.error("Cập nhật trạng thái thất bại!");
+    }
+  };
+
+  const handleQuantityChange = (orderId, itemIndex, delta) => {
+    const orderToUpdate = orders.find((o) => o.id === orderId);
+    if (!orderToUpdate) return;
+
+    const updatedItems = [...orderToUpdate.items];
+    const newQuantity = updatedItems[itemIndex].quantity + delta;
+
+    if (newQuantity < 1) {
+      toast.info(
+        "Số lượng tối thiểu là 1. Sử dụng nút Xóa nếu muốn bỏ sản phẩm.",
+      );
+      return;
+    }
+
+    updatedItems[itemIndex].quantity = newQuantity;
+
+    const newTotalPrice = updatedItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0,
+    );
+
+    saveOrderChanges({
+      ...orderToUpdate,
+      items: updatedItems,
+      totalPrice: newTotalPrice,
+    });
+  };
+
+  const handleRemoveItem = (orderId, itemIndex) => {
+    const orderToUpdate = orders.find((o) => o.id === orderId);
+    if (!orderToUpdate) return;
+
+    if (orderToUpdate.items.length === 1) {
+      toast.warning(
+        "Đơn hàng phải có ít nhất 1 sản phẩm. Hãy chọn 'Hủy đơn' nếu khách không mua nữa!",
+      );
+      return;
+    }
+
+    if (window.confirm("Bạn có chắc muốn xóa sản phẩm này khỏi đơn hàng?")) {
+      const updatedItems = orderToUpdate.items.filter(
+        (_, idx) => idx !== itemIndex,
+      );
+      const newTotalPrice = updatedItems.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0,
+      );
+
+      saveOrderChanges({
+        ...orderToUpdate,
+        items: updatedItems,
+        totalPrice: newTotalPrice,
+      });
+      toast.success("Đã xóa sản phẩm khỏi đơn.");
     }
   };
 
@@ -90,140 +177,60 @@ export default function OrderManagement() {
   return (
     <div className="product-section p-4 bg-white rounded shadow-sm">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h3 style={{ color: "var(--primary-dark)", fontWeight: "bold" }}>
+        <h3
+          style={{
+            color: "var(--primary-dark)",
+            fontWeight: "bold",
+            margin: 0,
+          }}
+        >
           Quản lý đơn hàng
         </h3>
+      </div>
+
+      <div className="admin-nav-menu">
+        <button
+          type="button"
+          className="admin-nav-btn"
+          onClick={() => navigate(PATH.adminDashboard)}
+        >
+          <FaChartBar /> Dashboard
+        </button>
+        <button
+          type="button"
+          className="admin-nav-btn"
+          onClick={() => navigate(PATH.adminProducts)}
+        >
+          <FaBox /> Sản phẩm
+        </button>
+        <button
+          type="button"
+          className="admin-nav-btn"
+          onClick={() => navigate(PATH.adminUsers)}
+        >
+          <FaUsers /> Người dùng
+        </button>
+        <button
+          type="button"
+          className="admin-nav-btn"
+          onClick={() => navigate(PATH.adminSupport)}
+        >
+          <FaHeadset /> Support
+        </button>
+      </div>
+
+      <div className="mb-4">
         <select
           className="form-select w-auto"
           value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}>
+          onChange={(e) => setFilterStatus(e.target.value)}
+        >
           <option value="">Tất cả trạng thái</option>
           <option value="PENDING">Chờ xác nhận</option>
           <option value="SHIPPING">Đang giao</option>
           <option value="DELIVERED">Đã giao</option>
           <option value="CANCELLED">Đã hủy</option>
         </select>
-      </div>
-
-      {/* Admin Navigation Menu */}
-      <div
-        style={{
-          display: "flex",
-          gap: "12px",
-          marginBottom: "30px",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          maxWidth: "1200px",
-          margin: "0 auto 30px",
-        }}>
-        <button
-          type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
-          onClick={() => navigate(PATH.adminDashboard)}
-          title="Dashboard">
-          <FaChartBar style={{ marginRight: "8px" }} /> Dashboard
-        </button>
-        <button
-          type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
-          onClick={() => navigate(PATH.adminProducts)}
-          title="Quản lý sản phẩm">
-          <FaBox style={{ marginRight: "8px" }} /> Sản phẩm
-        </button>
-        <button
-          type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
-          onClick={() => navigate(PATH.adminUsers)}
-          title="Quản lý người dùng">
-          <FaUsers style={{ marginRight: "8px" }} /> Người dùng
-        </button>
-        <button
-          type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
-          onClick={() => navigate(PATH.adminSupport)}
-          title="Support">
-          <FaHeadset style={{ marginRight: "8px" }} /> Support
-        </button>
       </div>
 
       {isLoading ? (
@@ -242,86 +249,154 @@ export default function OrderManagement() {
               </tr>
             </thead>
             <tbody>
-              {filteredOrders.map((order) => {
-                const statusInfo = getStatusLabel(order.status);
-                return (
-                  <tr key={order.id}>
-                    <td className="fw-bold text-primary">{order.id}</td>
-                    <td>{order.customerName}</td>
-                    <td>{formatDate(order.createdAt)}</td>
-                    <td className="fw-bold">
-                      {order.totalPrice.toLocaleString()}đ
-                    </td>
-                    <td className="text-center">
-                      <span className={`badge ${statusInfo.class} p-2`}>
-                        {statusInfo.text}
-                      </span>
-                    </td>
-                    <td className="text-center">
-                      <Button
-                        variant="outline"
-                        className="btn-sm"
-                        onClick={() => handleViewDetail(order)}>
-                        <FaEye /> Chi tiết
-                      </Button>
-                    </td>
-                  </tr>
-                );
-              })}
+              {filteredOrders.length > 0 ? (
+                filteredOrders.map((order) => {
+                  const statusInfo = getStatusLabel(order.status);
+                  return (
+                    <tr key={order.id}>
+                      <td className="fw-bold text-primary">{order.id}</td>
+                      <td>{order.customerName}</td>
+                      <td>{formatDate(order.createdAt)}</td>
+                      <td className="fw-bold text-danger">
+                        {order.totalPrice.toLocaleString()}đ
+                      </td>
+                      <td className="text-center">
+                        <span className={`badge ${statusInfo.class} p-2`}>
+                          {statusInfo.text}
+                        </span>
+                      </td>
+                      <td className="text-center">
+                        <Button
+                          variant="outline"
+                          className="btn-sm"
+                          onClick={() => handleViewDetail(order)}
+                        >
+                          <FaEye /> Chi tiết
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan="6" className="text-center py-4 text-muted">
+                    Không có đơn hàng nào.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
       )}
 
-      {/* Modal xem chi tiết và cập nhật trạng thái */}
+      {/* Modal Chi Tiết */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={`Chi tiết đơn hàng ${selectedOrder?.id}`}>
+        title={`Chi tiết đơn hàng ${selectedOrder?.id}`}
+      >
         {selectedOrder && (
           <div>
             <h6>
               Khách hàng: <strong>{selectedOrder.customerName}</strong>
             </h6>
             <hr />
-            <table className="table table-sm">
-              <thead>
-                <tr>
-                  <th>Sản phẩm</th>
-                  <th className="text-center">SL</th>
-                  <th className="text-end">Thành tiền</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedOrder.items.map((item, idx) => (
-                  <tr key={idx}>
-                    <td>{item.name}</td>
-                    <td className="text-center">{item.quantity}</td>
-                    <td className="text-end">
-                      {(item.price * item.quantity).toLocaleString()}đ
-                    </td>
+            <div className="table-responsive">
+              <table className="table table-sm table-bordered align-middle">
+                <thead className="table-light">
+                  <tr>
+                    <th>Sản phẩm</th>
+                    <th className="text-center" style={{ width: "120px" }}>
+                      Số lượng
+                    </th>
+                    <th className="text-end">Thành tiền</th>
+                    <th className="text-center">Thao tác</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            <div className="text-end mt-2">
-              <h5>
+                </thead>
+                <tbody>
+                  {selectedOrder.items.map((item, idx) => (
+                    <tr key={idx}>
+                      <td>{item.name}</td>
+
+                      {/* KHU VỰC THAY ĐỔI SỐ LƯỢNG */}
+                      <td className="text-center">
+                        <div className="d-flex align-items-center justify-content-center gap-2">
+                          <button
+                            className="btn btn-sm btn-outline-secondary py-0 px-2 fw-bold"
+                            onClick={() =>
+                              handleQuantityChange(selectedOrder.id, idx, -1)
+                            }
+                          >
+                            -
+                          </button>
+                          <span
+                            style={{ minWidth: "20px" }}
+                            className="fw-bold"
+                          >
+                            {item.quantity}
+                          </span>
+                          <button
+                            className="btn btn-sm btn-outline-secondary py-0 px-2 fw-bold"
+                            onClick={() =>
+                              handleQuantityChange(selectedOrder.id, idx, 1)
+                            }
+                          >
+                            +
+                          </button>
+                        </div>
+                      </td>
+
+                      <td className="text-end fw-semibold">
+                        {(item.price * item.quantity).toLocaleString()}đ
+                      </td>
+
+                      {/* NÚT XÓA */}
+                      <td className="text-center">
+                        <Button
+                          variant="danger"
+                          className="btn-sm py-1 px-2"
+                          title="Xóa sản phẩm"
+                          onClick={() =>
+                            handleRemoveItem(selectedOrder.id, idx)
+                          }
+                        >
+                          <FaTrash size={12} />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div className="text-end mt-3">
+              <h4 className="fw-bold">
                 Tổng cộng:{" "}
                 <span className="text-danger">
                   {selectedOrder.totalPrice.toLocaleString()}đ
                 </span>
-              </h5>
+              </h4>
             </div>
 
-            <div className="mt-4 p-3 bg-light rounded">
-              <h6>Cập nhật trạng thái đơn hàng:</h6>
-              <div className="d-flex gap-2 mt-2">
+            <div className="mt-4 p-3 bg-light rounded border">
+              <h6 className="mb-3 fw-bold">Cập nhật trạng thái đơn hàng:</h6>
+              <div className="d-flex flex-wrap gap-2">
                 <Button
-                  variant="outline"
-                  className="btn-sm"
+                  variant="warning"
+                  className="btn-sm text-dark"
+                  onClick={() =>
+                    handleUpdateStatus(selectedOrder.id, "PENDING")
+                  }
+                >
+                  Chờ xác nhận
+                </Button>
+                <Button
+                  variant="info"
+                  className="btn-sm text-white"
                   onClick={() =>
                     handleUpdateStatus(selectedOrder.id, "SHIPPING")
-                  }>
+                  }
+                >
                   Đang giao
                 </Button>
                 <Button
@@ -329,7 +404,8 @@ export default function OrderManagement() {
                   className="btn-sm"
                   onClick={() =>
                     handleUpdateStatus(selectedOrder.id, "DELIVERED")
-                  }>
+                  }
+                >
                   Đã giao
                 </Button>
                 <Button
@@ -337,10 +413,17 @@ export default function OrderManagement() {
                   className="btn-sm"
                   onClick={() =>
                     handleUpdateStatus(selectedOrder.id, "CANCELLED")
-                  }>
+                  }
+                >
                   Hủy đơn
                 </Button>
               </div>
+            </div>
+
+            <div className="d-flex justify-content-end mt-4 pt-3 border-top">
+              <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+                Đóng cửa sổ
+              </Button>
             </div>
           </div>
         )}
