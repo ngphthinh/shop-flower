@@ -1,4 +1,4 @@
-﻿import axios from "axios";
+import axios from "axios";
 
 const api = axios.create({
   baseURL: "/",
@@ -8,10 +8,26 @@ const api = axios.create({
   },
 });
 
+function getStoredToken() {
+  // Preferred storage (per authSlice): localStorage["auth"] = { user, token, role }
+  try {
+    const authRaw = localStorage.getItem("auth");
+    if (authRaw) {
+      const auth = JSON.parse(authRaw);
+      if (auth?.token) return auth.token;
+    }
+  } catch {
+    // ignore
+  }
+
+  // Fallback for older storage keys
+  return localStorage.getItem("token");
+}
+
 // Request interceptor để add token nếu có
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
+    const token = getStoredToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -26,6 +42,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem("token");
+      localStorage.removeItem("auth");
       window.location.href = "/login";
     }
     return Promise.reject(error);
