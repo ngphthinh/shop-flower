@@ -7,6 +7,7 @@ export const PATH = {
   adminDashboard: "/admin/dashboard",
   adminSupport: "/admin/support",
   orders: "/orders",
+  orderDetail: "/orders/:id",
   checkout: "/checkout",
   category: "/category/:id",
   search: "/search",
