@@ -91,7 +91,7 @@ export default function HomeSearchBar({ products = [] }) {
             id="home-search-input"
             ref={inputRef}
             className="home-search__input"
-            placeholder="Tìm nhanh: hoa hồng, sinh nhật, khai trương..."
+            placeholder="Tìm kiếm theo tên hoa, danh mục hoa..."
             value={value}
             onChange={(e) => {
               setValue(e.target.value);
