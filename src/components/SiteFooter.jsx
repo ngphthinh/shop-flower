@@ -149,16 +149,7 @@ export default function SiteFooter() {
                 © 2026 <strong>Beautiful Flowers</strong>. Bảo lưu mọi quyền.
               </p>
             </div>
-            <div className="col-12 col-md-6 text-center text-md-end">
-              <p className="footer-credit">
-                Made with{" "}
-                <FaHeart
-                  className="heart"
-                  style={{ display: "inline", color: "#f07dae" }}
-                />{" "}
-                for flower lovers
-              </p>
-            </div>
+           
           </div>
         </div>
       </div>

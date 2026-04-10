@@ -1,7 +1,18 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FaSearch, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
+import {
+  FaSearch,
+  FaPlus,
+  FaEdit,
+  FaTrash,
+  FaChartBar,
+  FaShoppingCart,
+  FaUsers,
+  FaHeadset,
+} from "react-icons/fa";
+import { PATH } from "../../routes/path";
 
 // Import components của bạn
 import Button from "../../components/Button/Button.jsx";
@@ -13,6 +24,7 @@ import * as productService from "../../services/productService.js";
 // import { fetchProducts } from "../../redux/productSlice"; // Mở cmt nếu bạn dùng thunk
 
 export default function ProductManagement() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // Lấy state từ Redux (Nếu bạn lưu danh sách ở Redux)
@@ -130,17 +142,136 @@ export default function ProductManagement() {
             color: "var(--primary-dark)",
             margin: 0,
             fontWeight: "bold",
-          }}
-        >
+          }}>
           Quản lý sản phẩm
         </h3>
         <Button
           variant="primary"
           onClick={openAddModal}
-          className="d-flex align-items-center gap-2"
-        >
+          className="d-flex align-items-center gap-2">
           <FaPlus /> Thêm sản phẩm
         </Button>
+      </div>
+
+      {/* Admin Navigation Menu */}
+      <div
+        style={{
+          display: "flex",
+          gap: "12px",
+          marginBottom: "30px",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          maxWidth: "1200px",
+          margin: "0 auto 30px",
+        }}>
+        <button
+          type="button"
+          style={{
+            background: "white",
+            border: "2px solid #e26d9e",
+            color: "#e26d9e",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            fontSize: "0.95rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = "#e26d9e";
+            e.target.style.color = "white";
+            e.target.style.transform = "translateY(-2px)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "white";
+            e.target.style.color = "#e26d9e";
+            e.target.style.transform = "translateY(0)";
+          }}
+          onClick={() => navigate(PATH.adminDashboard)}
+          title="Dashboard">
+          <FaChartBar style={{ marginRight: "8px" }} /> Dashboard
+        </button>
+        <button
+          type="button"
+          style={{
+            background: "white",
+            border: "2px solid #e26d9e",
+            color: "#e26d9e",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            fontSize: "0.95rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = "#e26d9e";
+            e.target.style.color = "white";
+            e.target.style.transform = "translateY(-2px)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "white";
+            e.target.style.color = "#e26d9e";
+            e.target.style.transform = "translateY(0)";
+          }}
+          onClick={() => navigate(PATH.adminOrders)}
+          title="Quản lý đơn hàng">
+          <FaShoppingCart style={{ marginRight: "8px" }} /> Đơn hàng
+        </button>
+        <button
+          type="button"
+          style={{
+            background: "white",
+            border: "2px solid #e26d9e",
+            color: "#e26d9e",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            fontSize: "0.95rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = "#e26d9e";
+            e.target.style.color = "white";
+            e.target.style.transform = "translateY(-2px)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "white";
+            e.target.style.color = "#e26d9e";
+            e.target.style.transform = "translateY(0)";
+          }}
+          onClick={() => navigate(PATH.adminUsers)}
+          title="Quản lý người dùng">
+          <FaUsers style={{ marginRight: "8px" }} /> Người dùng
+        </button>
+        <button
+          type="button"
+          style={{
+            background: "white",
+            border: "2px solid #e26d9e",
+            color: "#e26d9e",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            fontSize: "0.95rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = "#e26d9e";
+            e.target.style.color = "white";
+            e.target.style.transform = "translateY(-2px)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "white";
+            e.target.style.color = "#e26d9e";
+            e.target.style.transform = "translateY(0)";
+          }}
+          onClick={() => navigate(PATH.adminSupport)}
+          title="Support">
+          <FaHeadset style={{ marginRight: "8px" }} /> Support
+        </button>
       </div>
 
       {/* Bộ lọc và Tìm kiếm (Theo đúng ảnh mẫu) */}
@@ -161,8 +292,7 @@ export default function ProductManagement() {
           className="form-select"
           style={{ maxWidth: "200px" }}
           value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
-        >
+          onChange={(e) => setFilterCategory(e.target.value)}>
           <option value="">Tất cả danh mục</option>
           <option value="Hoa bó">Hoa bó</option>
           <option value="Hoa lẵng">Hoa lẵng</option>
@@ -224,8 +354,7 @@ export default function ProductManagement() {
                     </td>
                     <td className="text-center">
                       <span
-                        className={`badge ${product.stock > 10 ? "bg-success" : "bg-warning"}`}
-                      >
+                        className={`badge ${product.stock > 10 ? "bg-success" : "bg-warning"}`}>
                         {product.stock}
                       </span>
                     </td>
@@ -234,16 +363,14 @@ export default function ProductManagement() {
                         variant="outline"
                         className="btn-sm me-2"
                         onClick={() => openEditModal(product)}
-                        title="Sửa"
-                      >
+                        title="Sửa">
                         <FaEdit />
                       </Button>
                       <Button
                         variant="danger"
                         className="btn-sm"
                         onClick={() => handleDelete(product.id)}
-                        title="Xóa"
-                      >
+                        title="Xóa">
                         <FaTrash />
                       </Button>
                     </td>
@@ -265,8 +392,7 @@ export default function ProductManagement() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingId ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
-      >
+        title={editingId ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label fw-semibold">
@@ -303,8 +429,7 @@ export default function ProductManagement() {
               name="category"
               value={formData.category}
               onChange={handleInputChange}
-              required
-            >
+              required>
               <option value="">-- Chọn danh mục --</option>
               <option value="Hoa bó">Hoa bó</option>
               <option value="Hoa lẵng">Hoa lẵng</option>
@@ -346,8 +471,7 @@ export default function ProductManagement() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => setIsModalOpen(false)}
-            >
+              onClick={() => setIsModalOpen(false)}>
               Hủy bỏ
             </Button>
             <Button type="submit" variant="primary">

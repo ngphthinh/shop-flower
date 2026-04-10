@@ -46,10 +46,7 @@ export default function Navbar() {
         <div className="container d-flex justify-content-between align-items-center small text-white">
           <div></div>
           <div className="d-none d-md-flex gap-4 align-items-center">
-            <span className="d-flex align-items-center gap-1">
-              <FaStore /> Tin nổi bật
-            </span>
-
+        
             {role === "ADMIN" ? (
               <Link
                 to={PATH.adminSupport}
@@ -66,7 +63,11 @@ export default function Navbar() {
             {isAuthenticated ? (
               <div className="auth-user">
                 <FaUser className="me-2" />
-                <span className="me-3">{user?.name}</span>
+                <Link
+                  to={PATH.profile}
+                  className="text-white text-decoration-none me-3">
+                  {user?.name}
+                </Link>
                 {role === "ADMIN" && (
                   <Link to={PATH.adminDashboard} className="admin-badge">
                     Thống kê
@@ -159,13 +160,11 @@ export default function Navbar() {
         )}
         {role === "ADMIN" && (
           <>
-            <NavLink
-              to={PATH.adminDashboard}
-              className="header-nav__item admin-link">
+            <NavLink to={PATH.adminDashboard} className="header-nav__item">
               Dashboard
             </NavLink>
             <div className="header-nav__dropdown">
-              <span className="header-nav__item admin-link">Thống kê</span>
+              <span className="header-nav__item">Thống kê</span>
               <div className="header-nav__dropdown-menu">
                 <NavLink
                   to={PATH.statisticsRevenue}

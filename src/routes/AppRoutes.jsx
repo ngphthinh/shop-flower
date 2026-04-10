@@ -7,6 +7,7 @@ import Category from "../pages/Category/Category";
 import Search from "../pages/Search/Search";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import Profile from "../pages/Profile/Profile";
 import Checkout from "../pages/Checkout/Checkout";
 import Orders from "../pages/Orders/Orders";
 import OrderDetail from "../pages/Orders/OrderDetail";
@@ -65,6 +66,14 @@ export default function AppRoutes() {
           element={
             <PrivateRoute>
               <OrderDetail />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path={PATH.profile}
+          element={
+            <PrivateRoute>
+              <Profile />
             </PrivateRoute>
           }
         />

@@ -4,6 +4,7 @@ export const PATH = {
   productDetail: "/product/:id",
   login: "/login",
   register: "/register",
+  profile: "/profile",
   adminDashboard: "/admin/dashboard",
   adminSupport: "/admin/support",
   adminProducts: "/admin/products",

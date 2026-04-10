@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FaEye, FaSearch } from "react-icons/fa";
+import {
+  FaEye,
+  FaSearch,
+  FaChartBar,
+  FaBox,
+  FaUsers,
+  FaHeadset,
+} from "react-icons/fa";
+import { PATH } from "../../routes/path";
 
 // Import components dùng chung của bạn
 import Button from "../../components/Button/Button";
@@ -12,6 +21,7 @@ import "../AdminDashboard/AdminDashboard.css";
 // import * as orderService from "../../services/orderService";
 
 export default function OrderManagement() {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([
     {
       id: "ORD001",
@@ -86,14 +96,134 @@ export default function OrderManagement() {
         <select
           className="form-select w-auto"
           value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-        >
+          onChange={(e) => setFilterStatus(e.target.value)}>
           <option value="">Tất cả trạng thái</option>
           <option value="PENDING">Chờ xác nhận</option>
           <option value="SHIPPING">Đang giao</option>
           <option value="DELIVERED">Đã giao</option>
           <option value="CANCELLED">Đã hủy</option>
         </select>
+      </div>
+
+      {/* Admin Navigation Menu */}
+      <div
+        style={{
+          display: "flex",
+          gap: "12px",
+          marginBottom: "30px",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          maxWidth: "1200px",
+          margin: "0 auto 30px",
+        }}>
+        <button
+          type="button"
+          style={{
+            background: "white",
+            border: "2px solid #e26d9e",
+            color: "#e26d9e",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            fontSize: "0.95rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = "#e26d9e";
+            e.target.style.color = "white";
+            e.target.style.transform = "translateY(-2px)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "white";
+            e.target.style.color = "#e26d9e";
+            e.target.style.transform = "translateY(0)";
+          }}
+          onClick={() => navigate(PATH.adminDashboard)}
+          title="Dashboard">
+          <FaChartBar style={{ marginRight: "8px" }} /> Dashboard
+        </button>
+        <button
+          type="button"
+          style={{
+            background: "white",
+            border: "2px solid #e26d9e",
+            color: "#e26d9e",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            fontSize: "0.95rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = "#e26d9e";
+            e.target.style.color = "white";
+            e.target.style.transform = "translateY(-2px)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "white";
+            e.target.style.color = "#e26d9e";
+            e.target.style.transform = "translateY(0)";
+          }}
+          onClick={() => navigate(PATH.adminProducts)}
+          title="Quản lý sản phẩm">
+          <FaBox style={{ marginRight: "8px" }} /> Sản phẩm
+        </button>
+        <button
+          type="button"
+          style={{
+            background: "white",
+            border: "2px solid #e26d9e",
+            color: "#e26d9e",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            fontSize: "0.95rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = "#e26d9e";
+            e.target.style.color = "white";
+            e.target.style.transform = "translateY(-2px)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "white";
+            e.target.style.color = "#e26d9e";
+            e.target.style.transform = "translateY(0)";
+          }}
+          onClick={() => navigate(PATH.adminUsers)}
+          title="Quản lý người dùng">
+          <FaUsers style={{ marginRight: "8px" }} /> Người dùng
+        </button>
+        <button
+          type="button"
+          style={{
+            background: "white",
+            border: "2px solid #e26d9e",
+            color: "#e26d9e",
+            padding: "10px 20px",
+            borderRadius: "8px",
+            fontSize: "0.95rem",
+            fontWeight: 500,
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.background = "#e26d9e";
+            e.target.style.color = "white";
+            e.target.style.transform = "translateY(-2px)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.background = "white";
+            e.target.style.color = "#e26d9e";
+            e.target.style.transform = "translateY(0)";
+          }}
+          onClick={() => navigate(PATH.adminSupport)}
+          title="Support">
+          <FaHeadset style={{ marginRight: "8px" }} /> Support
+        </button>
       </div>
 
       {isLoading ? (
@@ -131,8 +261,7 @@ export default function OrderManagement() {
                       <Button
                         variant="outline"
                         className="btn-sm"
-                        onClick={() => handleViewDetail(order)}
-                      >
+                        onClick={() => handleViewDetail(order)}>
                         <FaEye /> Chi tiết
                       </Button>
                     </td>
@@ -148,8 +277,7 @@ export default function OrderManagement() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={`Chi tiết đơn hàng ${selectedOrder?.id}`}
-      >
+        title={`Chi tiết đơn hàng ${selectedOrder?.id}`}>
         {selectedOrder && (
           <div>
             <h6>
@@ -193,8 +321,7 @@ export default function OrderManagement() {
                   className="btn-sm"
                   onClick={() =>
                     handleUpdateStatus(selectedOrder.id, "SHIPPING")
-                  }
-                >
+                  }>
                   Đang giao
                 </Button>
                 <Button
@@ -202,8 +329,7 @@ export default function OrderManagement() {
                   className="btn-sm"
                   onClick={() =>
                     handleUpdateStatus(selectedOrder.id, "DELIVERED")
-                  }
-                >
+                  }>
                   Đã giao
                 </Button>
                 <Button
@@ -211,8 +337,7 @@ export default function OrderManagement() {
                   className="btn-sm"
                   onClick={() =>
                     handleUpdateStatus(selectedOrder.id, "CANCELLED")
-                  }
-                >
+                  }>
                   Hủy đơn
                 </Button>
               </div>
