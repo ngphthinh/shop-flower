@@ -1,0 +1,367 @@
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import {
+  FaSearch,
+  FaUserPlus,
+  FaEdit,
+  FaTrash,
+  FaLock,
+  FaLockOpen,
+} from "react-icons/fa";
+
+// Import components dùng chung
+import Button from "../../components/Button/Button";
+import Modal from "../../components/Modal/Modal";
+import LoadingSpinner from "../../components/LoadingSpinner";
+import "../AdminDashboard/AdminDashboard.css";
+// Giả định bạn sẽ dùng userService để gọi API
+// import * as userService from "../../services/userService";
+
+export default function UserManagement() {
+  // 1. Dữ liệu giả lập (Sau này lấy từ API qua userService)
+  const [users, setUsers] = useState([
+    {
+      id: 1,
+      name: "Admin Trưởng",
+      email: "admin@shopflower.com",
+      role: "ADMIN",
+      status: "ACTIVE",
+    },
+    {
+      id: 2,
+      name: "Nguyễn Văn Khách",
+      email: "khachhang1@gmail.com",
+      role: "USER",
+      status: "ACTIVE",
+    },
+    {
+      id: 3,
+      name: "Trần Thị Cấm",
+      email: "spammer@yahoo.com",
+      role: "USER",
+      status: "LOCKED",
+    },
+  ]);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterRole, setFilterRole] = useState("");
+
+  // Modal states
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "", // Chỉ hiện password khi thêm mới
+    role: "USER",
+    status: "ACTIVE",
+  });
+
+  // --- LỌC & TÌM KIẾM ---
+  const filteredUsers = users.filter((user) => {
+    const matchSearch =
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchRole = filterRole === "" || user.role === filterRole;
+    return matchSearch && matchRole;
+  });
+
+  // --- XỬ LÝ FORM ---
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const openAddModal = () => {
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      role: "USER",
+      status: "ACTIVE",
+    });
+    setEditingId(null);
+    setIsModalOpen(true);
+  };
+
+  const openEditModal = (user) => {
+    setFormData({ ...user, password: "" }); // Không hiển thị password cũ
+    setEditingId(user.id);
+    setIsModalOpen(true);
+  };
+
+  // --- THÊM & SỬA ---
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (editingId) {
+        // Cập nhật (Update) - Gọi API: await userService.updateUser(editingId, formData)
+        setUsers(
+          users.map((u) =>
+            u.id === editingId ? { ...formData, id: editingId } : u,
+          ),
+        );
+        toast.success("Cập nhật thông tin người dùng thành công!");
+      } else {
+        // Thêm mới (Create) - Gọi API: await userService.createUser(formData)
+        const newUser = { ...formData, id: Date.now() };
+        setUsers([...users, newUser]);
+        toast.success("Đã thêm người dùng mới!");
+      }
+      setIsModalOpen(false);
+    } catch (error) {
+      toast.error("Có lỗi xảy ra, vui lòng thử lại!");
+    }
+  };
+
+  // --- KHÓA / MỞ KHÓA TÀI KHOẢN ---
+  const handleToggleStatus = (id, currentStatus) => {
+    const newStatus = currentStatus === "ACTIVE" ? "LOCKED" : "ACTIVE";
+    setUsers(users.map((u) => (u.id === id ? { ...u, status: newStatus } : u)));
+    toast.info(
+      `Tài khoản đã được ${newStatus === "ACTIVE" ? "mở khóa" : "khóa"}.`,
+    );
+  };
+
+  // --- XÓA ---
+  const handleDelete = (id) => {
+    if (window.confirm("Bạn có chắc chắn muốn xóa tài khoản này vĩnh viễn?")) {
+      setUsers(users.filter((u) => u.id !== id));
+      toast.success("Đã xóa tài khoản!");
+    }
+  };
+
+  return (
+    <div className="product-section p-4 bg-white rounded shadow-sm">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h3
+          style={{
+            color: "var(--primary-dark)",
+            fontWeight: "bold",
+            margin: 0,
+          }}
+        >
+          Quản lý người dùng
+        </h3>
+        <Button
+          variant="primary"
+          onClick={openAddModal}
+          className="d-flex align-items-center gap-2"
+        >
+          <FaUserPlus /> Thêm người dùng
+        </Button>
+      </div>
+
+      {/* Thanh tìm kiếm và lọc */}
+      <div className="d-flex gap-3 mb-4">
+        <div className="input-group" style={{ maxWidth: "400px" }}>
+          <span className="input-group-text bg-light border-end-0">
+            <FaSearch color="#888" />
+          </span>
+          <input
+            type="text"
+            className="form-control border-start-0 ps-0"
+            placeholder="Tìm theo tên hoặc email..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <select
+          className="form-select"
+          style={{ maxWidth: "200px" }}
+          value={filterRole}
+          onChange={(e) => setFilterRole(e.target.value)}
+        >
+          <option value="">Tất cả vai trò</option>
+          <option value="ADMIN">Quản trị viên (ADMIN)</option>
+          <option value="USER">Khách hàng (USER)</option>
+        </select>
+      </div>
+
+      {/* Bảng dữ liệu */}
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="table-responsive">
+          <table className="table table-hover align-middle border">
+            <thead className="table-light">
+              <tr>
+                <th className="text-center">ID</th>
+                <th>Họ và Tên</th>
+                <th>Email</th>
+                <th className="text-center">Vai trò</th>
+                <th className="text-center">Trạng thái</th>
+                <th className="text-center">Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredUsers.length > 0 ? (
+                filteredUsers.map((user) => (
+                  <tr key={user.id}>
+                    <td className="text-center text-muted fw-semibold">
+                      {user.id}
+                    </td>
+                    <td className="fw-bold">{user.name}</td>
+                    <td>{user.email}</td>
+                    <td className="text-center">
+                      <span
+                        className={`badge ${user.role === "ADMIN" ? "bg-danger" : "bg-primary"}`}
+                      >
+                        {user.role}
+                      </span>
+                    </td>
+                    <td className="text-center">
+                      <span
+                        className={`badge ${user.status === "ACTIVE" ? "bg-success" : "bg-secondary"}`}
+                      >
+                        {user.status === "ACTIVE" ? "Hoạt động" : "Đã khóa"}
+                      </span>
+                    </td>
+                    <td className="text-center">
+                      <Button
+                        variant={
+                          user.status === "ACTIVE" ? "warning" : "success"
+                        }
+                        className="btn-sm me-2 text-white"
+                        onClick={() => handleToggleStatus(user.id, user.status)}
+                        title={
+                          user.status === "ACTIVE"
+                            ? "Khóa tài khoản"
+                            : "Mở khóa"
+                        }
+                      >
+                        {user.status === "ACTIVE" ? <FaLock /> : <FaLockOpen />}
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="btn-sm me-2"
+                        onClick={() => openEditModal(user)}
+                        title="Sửa"
+                      >
+                        <FaEdit />
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="btn-sm"
+                        onClick={() => handleDelete(user.id)}
+                        title="Xóa"
+                      >
+                        <FaTrash />
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="text-center py-4 text-muted">
+                    Không tìm thấy người dùng nào.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Modal Form Thêm/Sửa */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={editingId ? "Sửa thông tin người dùng" : "Thêm người dùng mới"}
+      >
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">
+              Họ và Tên <span className="text-danger">*</span>
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">
+              Email <span className="text-danger">*</span>
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+              disabled={!!editingId}
+            />
+            {editingId && (
+              <small className="text-muted">
+                Không thể thay đổi email sau khi tạo.
+              </small>
+            )}
+          </div>
+
+          {/* Chỉ yêu cầu mật khẩu khi tạo mới */}
+          {!editingId && (
+            <div className="mb-3">
+              <label className="form-label fw-semibold">
+                Mật khẩu <span className="text-danger">*</span>
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          )}
+
+          <div className="row">
+            <div className="col-md-6 mb-3">
+              <label className="form-label fw-semibold">Vai trò</label>
+              <select
+                className="form-select"
+                name="role"
+                value={formData.role}
+                onChange={handleInputChange}
+              >
+                <option value="USER">Khách hàng (USER)</option>
+                <option value="ADMIN">Quản trị viên (ADMIN)</option>
+              </select>
+            </div>
+            <div className="col-md-6 mb-3">
+              <label className="form-label fw-semibold">Trạng thái</label>
+              <select
+                className="form-select"
+                name="status"
+                value={formData.status}
+                onChange={handleInputChange}
+              >
+                <option value="ACTIVE">Hoạt động</option>
+                <option value="LOCKED">Khóa</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsModalOpen(false)}
+            >
+              Hủy
+            </Button>
+            <Button type="submit" variant="primary">
+              {editingId ? "Cập nhật" : "Lưu người dùng"}
+            </Button>
+          </div>
+        </form>
+      </Modal>
+    </div>
+  );
+}
