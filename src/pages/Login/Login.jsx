@@ -52,13 +52,14 @@ export default function Login() {
       );
 
       if (user) {
-        // Giả lập JWT token
-        const token = `jwt_token_${Date.now()}_${Math.random()}`;
         try {
           // Identity used for per-account profile cache (do not clear on logout).
-          localStorage.setItem("auth_identity_email", String(user.email).toLowerCase());
+          localStorage.setItem(
+            "auth_identity_email",
+            String(user.email).toLowerCase(),
+          );
         } catch {
-          // ignore
+          // Silently ignore cache storage errors
         }
         const cacheKey = `profile_cache_${String(user.email).toLowerCase()}`;
         let cachedProfile = null;
@@ -136,7 +137,7 @@ export default function Login() {
           </button>
         </form>
 
-        <div className="mock-credentials">
+        {/* <div className="mock-credentials">
           <p className="text-muted">Mock Credentials:</p>
           <ul className="small">
             <li>
@@ -146,7 +147,7 @@ export default function Login() {
               <strong>User:</strong> user@gmail.com / 123456
             </li>
           </ul>
-        </div>
+        </div> */}
 
         <p className="register-link">
           Chưa có tài khoản? <a href={PATH.register}>Đăng ký ngay</a>

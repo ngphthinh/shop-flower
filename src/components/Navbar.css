@@ -1,3 +1,10 @@
+/* Header Navigation */
+.site-header {
+  position: relative;
+  z-index: 10000 !important;
+  pointer-events: auto;
+}
+
 /* Auth Links */
 .auth-links {
   display: flex;

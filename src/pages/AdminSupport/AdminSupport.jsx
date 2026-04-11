@@ -8,7 +8,6 @@ import {
   FaTriangleExclamation,
   FaXmark,
 } from "react-icons/fa6";
-import { FaChartBar, FaBox, FaShoppingCart, FaUsers } from "react-icons/fa";
 import { PATH } from "../../routes/path";
 import "./AdminSupport.css";
 
@@ -540,126 +539,6 @@ export default function SupportPage() {
       </header>
 
       {/* Admin Navigation Menu */}
-      <div
-        style={{
-          display: "flex",
-          gap: "12px",
-          marginBottom: "30px",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          maxWidth: "1200px",
-          margin: "0 auto 30px",
-          padding: "0 20px",
-        }}>
-        <button
-          type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
-          onClick={() => navigate(PATH.adminDashboard)}
-          title="Dashboard">
-          <FaChartBar style={{ marginRight: "8px" }} /> Dashboard
-        </button>
-        <button
-          type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
-          onClick={() => navigate(PATH.adminProducts)}
-          title="Quản lý sản phẩm">
-          <FaBox style={{ marginRight: "8px" }} /> Sản phẩm
-        </button>
-        <button
-          type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
-          onClick={() => navigate(PATH.adminOrders)}
-          title="Quản lý đơn hàng">
-          <FaShoppingCart style={{ marginRight: "8px" }} /> Đơn hàng
-        </button>
-        <button
-          type="button"
-          style={{
-            background: "white",
-            border: "2px solid #e26d9e",
-            color: "#e26d9e",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            fontSize: "0.95rem",
-            fontWeight: 500,
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-          }}
-          onMouseEnter={(e) => {
-            e.target.style.background = "#e26d9e";
-            e.target.style.color = "white";
-            e.target.style.transform = "translateY(-2px)";
-          }}
-          onMouseLeave={(e) => {
-            e.target.style.background = "white";
-            e.target.style.color = "#e26d9e";
-            e.target.style.transform = "translateY(0)";
-          }}
-          onClick={() => navigate(PATH.adminUsers)}
-          title="Quản lý người dùng">
-          <FaUsers style={{ marginRight: "8px" }} /> Người dùng
-        </button>
-      </div>
 
       <div className="sp-tabs">
         {[

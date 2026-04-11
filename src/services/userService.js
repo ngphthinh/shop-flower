@@ -163,10 +163,7 @@ export const userService = {
 
       return result;
     } catch (error) {
-      // Nếu backend không khả dụng hoặc trả lỗi server, dùng fallback mock (localStorage)
       const status = error?.response?.status;
-      // Nếu backend không khả dụng (no status) hoặc lỗi server (5xx) hoặc endpoint không tồn tại (404)
-      // Hoặc lỗi xác thực (401/403) trong môi trường dev → dùng mock để phát triển UX
       if (
         !status ||
         status >= 500 ||

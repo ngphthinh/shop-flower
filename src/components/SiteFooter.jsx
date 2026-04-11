@@ -58,34 +58,9 @@ export default function SiteFooter() {
               Cửa hàng
             </h5>
             <ul className="list-unstyled footer-links">
-              <li>
-                <Link
-                  to={PATH.home}
-                  className="footer-link-btn">
-                  Trang chủ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={PATH.home}
-                  className="footer-link-btn">
-                  Bó hoa
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={PATH.home}
-                  className="footer-link-btn">
-                  Khuyến mãi
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to={PATH.home}
-                  className="footer-link-btn">
-                  Hoa chậu
-                </Link>
-              </li>
+              <li>Bó hoa</li>
+              <li>Khuyến mãi</li>
+              <li>Hoa chậu</li>
             </ul>
           </div>
 
@@ -166,7 +141,11 @@ export default function SiteFooter() {
                 <FaEnvelope className="contact-icon" />
                 <div>
                   <span className="contact-label">Email</span>
-                  <p>support@beautifulflowers.com</p>
+                  <p>
+                    <a href="mailto:nguyenphuocthinh020@gmail">
+                      support@beautifulflowers.com
+                    </a>
+                  </p>
                 </div>
               </div>
             </div>
@@ -201,18 +180,6 @@ export default function SiteFooter() {
 
         {/* Divider */}
         <hr className="footer-divider my-4" />
-
-        {/* Bottom Section */}
-        <div className="footer-bottom-content">
-          <div className="row align-items-center">
-            <div className="col-12 col-md-6 text-center text-md-start mb-3 mb-md-0">
-              <p className="footer-copyright">
-                © 2026 <strong>Beautiful Flowers</strong>. Bảo lưu mọi quyền.
-              </p>
-            </div>
-           
-          </div>
-        </div>
       </div>
 
       {/* Modals: Thông tin */}
@@ -267,7 +234,9 @@ export default function SiteFooter() {
                     <div className="fw-semibold mb-2">Điểm nổi bật</div>
                     <ul className="mb-0">
                       <li>Hoa tươi chọn lọc mỗi ngày</li>
-                      <li>Thiết kế theo dịp (sinh nhật, kỷ niệm, khai trương)</li>
+                      <li>
+                        Thiết kế theo dịp (sinh nhật, kỷ niệm, khai trương)
+                      </li>
                       <li>Tư vấn theo ngân sách và thông điệp</li>
                       <li>Đóng gói cẩn thận, giao nhanh nội thành</li>
                     </ul>
@@ -486,12 +455,12 @@ export default function SiteFooter() {
                     <div className="fw-semibold mb-2">Sản phẩm & hình ảnh</div>
                     <ul className="mb-0">
                       <li>
-                        Ảnh sản phẩm mang tính minh họa; có thể chênh lệch nhỏ do
-                        hoa tự nhiên và phụ kiện theo ngày.
+                        Ảnh sản phẩm mang tính minh họa; có thể chênh lệch nhỏ
+                        do hoa tự nhiên và phụ kiện theo ngày.
                       </li>
                       <li>
-                        Giá và tình trạng sản phẩm có thể thay đổi theo mùa vụ và
-                        tồn kho.
+                        Giá và tình trạng sản phẩm có thể thay đổi theo mùa vụ
+                        và tồn kho.
                       </li>
                     </ul>
                   </div>

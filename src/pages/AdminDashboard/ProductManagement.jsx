@@ -1,20 +1,8 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import {
-  FaSearch,
-  FaPlus,
-  FaEdit,
-  FaTrash,
-  FaChartBar,
-  FaShoppingCart,
-  FaUsers,
-  FaHeadset,
-} from "react-icons/fa";
+import { FaSearch, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import { PATH } from "../../routes/path";
-
-import Button from "../../components/Button/Button.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
 import LoadingSpinner from "../../components/LoadingSpinner.jsx";
 
@@ -27,7 +15,6 @@ const LOCAL_STORAGE_KEY = "shopflower_products";
 
 export default function ProductManagement() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -159,7 +146,9 @@ export default function ProductManagement() {
   const confirmDelete = () => {
     if (productToDelete) {
       try {
-        const updatedProducts = products.filter((p) => p.id !== productToDelete.id);
+        const updatedProducts = products.filter(
+          (p) => p.id !== productToDelete.id,
+        );
         setProducts(updatedProducts);
         localStorage.setItem(
           LOCAL_STORAGE_KEY,
@@ -186,45 +175,9 @@ export default function ProductManagement() {
         <Button
           variant="primary"
           onClick={openAddModal}
-          className="d-flex align-items-center gap-2"
-        >
+          className="d-flex align-items-center gap-2">
           <FaPlus /> Thêm sản phẩm
         </Button>
-      </div>
-
-      <div className="admin-nav-menu">
-        <button
-          type="button"
-          className="admin-nav-btn"
-          onClick={() => navigate(PATH.adminDashboard)}
-          title="Dashboard"
-        >
-          <FaChartBar /> Dashboard
-        </button>
-        <button
-          type="button"
-          className="admin-nav-btn"
-          onClick={() => navigate(PATH.adminOrders)}
-          title="Quản lý đơn hàng"
-        >
-          <FaShoppingCart /> Đơn hàng
-        </button>
-        <button
-          type="button"
-          className="admin-nav-btn"
-          onClick={() => navigate(PATH.adminUsers)}
-          title="Quản lý người dùng"
-        >
-          <FaUsers /> Người dùng
-        </button>
-        <button
-          type="button"
-          className="admin-nav-btn"
-          onClick={() => navigate(PATH.adminSupport)}
-          title="Support"
-        >
-          <FaHeadset /> Support
-        </button>
       </div>
 
       <div className="d-flex gap-3 mb-4">
@@ -244,8 +197,7 @@ export default function ProductManagement() {
           className="form-select"
           style={{ maxWidth: "200px" }}
           value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
-        >
+          onChange={(e) => setFilterCategory(e.target.value)}>
           <option value="">Tất cả danh mục</option>
           <option value="Hoa bó">Hoa bó</option>
           <option value="Hoa lẵng">Hoa lẵng</option>
@@ -299,8 +251,7 @@ export default function ProductManagement() {
                       <span
                         className={`badge ${
                           product.stock > 10 ? "bg-success" : "bg-warning"
-                        }`}
-                      >
+                        }`}>
                         {product.stock}
                       </span>
                     </td>
@@ -309,16 +260,14 @@ export default function ProductManagement() {
                         variant="outline"
                         className="btn-sm me-2"
                         onClick={() => openEditModal(product)}
-                        title="Sửa"
-                      >
+                        title="Sửa">
                         <FaEdit />
                       </Button>
                       <Button
                         variant="danger"
                         className="btn-sm"
                         onClick={() => handleDelete(product.id)}
-                        title="Xóa"
-                      >
+                        title="Xóa">
                         <FaTrash />
                       </Button>
                     </td>
@@ -341,8 +290,7 @@ export default function ProductManagement() {
         <div
           className="modal d-block"
           tabIndex="-1"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-        >
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header border-bottom">
@@ -353,12 +301,12 @@ export default function ProductManagement() {
                   type="button"
                   className="btn-close"
                   onClick={cancelDelete}
-                  aria-label="Close"
-                ></button>
+                  aria-label="Close"></button>
               </div>
               <div className="modal-body">
                 <p className="mb-2">
-                  Bạn có chắc chắn muốn xóa sản phẩm <strong>{productToDelete?.name}</strong>?
+                  Bạn có chắc chắn muốn xóa sản phẩm{" "}
+                  <strong>{productToDelete?.name}</strong>?
                 </p>
                 <p className="text-muted small mb-0">
                   Hành động này không thể hoàn tác.
@@ -368,15 +316,13 @@ export default function ProductManagement() {
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={cancelDelete}
-                >
+                  onClick={cancelDelete}>
                   Hủy
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger"
-                  onClick={confirmDelete}
-                >
+                  onClick={confirmDelete}>
                   <FaTrash className="me-2" /> Xóa sản phẩm
                 </button>
               </div>
@@ -388,8 +334,7 @@ export default function ProductManagement() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingId ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}
-      >
+        title={editingId ? "Chỉnh sửa sản phẩm" : "Thêm sản phẩm mới"}>
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label className="form-label fw-semibold">
@@ -434,8 +379,7 @@ export default function ProductManagement() {
               name="category"
               value={formData.category}
               onChange={handleInputChange}
-              required
-            >
+              required>
               <option value="">-- Chọn danh mục --</option>
               <option value="Hoa bó">Hoa bó</option>
               <option value="Hoa lẵng">Hoa lẵng</option>
@@ -477,8 +421,7 @@ export default function ProductManagement() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => setIsModalOpen(false)}
-            >
+              onClick={() => setIsModalOpen(false)}>
               Hủy bỏ
             </Button>
             <Button type="submit" variant="primary">

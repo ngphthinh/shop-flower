@@ -1,18 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import {
-  FaEye,
-  FaSearch,
-  FaChartBar,
-  FaBox,
-  FaUsers,
-  FaHeadset,
-  FaTrash,
-} from "react-icons/fa";
+import { FaEye, FaSearch, FaTrash } from "react-icons/fa";
 import { PATH } from "../../routes/path";
-
-import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { formatDate } from "../../utils/formatDate";
@@ -154,7 +144,11 @@ export default function OrderManagement() {
       return;
     }
 
-    setItemToRemove({ orderId, itemIndex, itemName: orderToUpdate.items[itemIndex].name });
+    setItemToRemove({
+      orderId,
+      itemIndex,
+      itemName: orderToUpdate.items[itemIndex].name,
+    });
     setShowConfirmRemoveModal(true);
   };
 
@@ -199,49 +193,16 @@ export default function OrderManagement() {
             color: "var(--primary-dark)",
             fontWeight: "bold",
             margin: 0,
-          }}
-        >
+          }}>
           Quản lý đơn hàng
         </h3>
-      </div>
-
-      <div className="admin-nav-menu">
-        <button
-          type="button"
-          className="admin-nav-btn"
-          onClick={() => navigate(PATH.adminDashboard)}
-        >
-          <FaChartBar /> Dashboard
-        </button>
-        <button
-          type="button"
-          className="admin-nav-btn"
-          onClick={() => navigate(PATH.adminProducts)}
-        >
-          <FaBox /> Sản phẩm
-        </button>
-        <button
-          type="button"
-          className="admin-nav-btn"
-          onClick={() => navigate(PATH.adminUsers)}
-        >
-          <FaUsers /> Người dùng
-        </button>
-        <button
-          type="button"
-          className="admin-nav-btn"
-          onClick={() => navigate(PATH.adminSupport)}
-        >
-          <FaHeadset /> Support
-        </button>
       </div>
 
       <div className="mb-4">
         <select
           className="form-select w-auto"
           value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-        >
+          onChange={(e) => setFilterStatus(e.target.value)}>
           <option value="">Tất cả trạng thái</option>
           <option value="PENDING">Chờ xác nhận</option>
           <option value="SHIPPING">Đang giao</option>
@@ -286,8 +247,7 @@ export default function OrderManagement() {
                         <Button
                           variant="outline"
                           className="btn-sm"
-                          onClick={() => handleViewDetail(order)}
-                        >
+                          onClick={() => handleViewDetail(order)}>
                           <FaEye /> Chi tiết
                         </Button>
                       </td>
@@ -310,8 +270,7 @@ export default function OrderManagement() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={`Chi tiết đơn hàng ${selectedOrder?.id}`}
-      >
+        title={`Chi tiết đơn hàng ${selectedOrder?.id}`}>
         {selectedOrder && (
           <div>
             <h6>
@@ -342,22 +301,19 @@ export default function OrderManagement() {
                             className="btn btn-sm btn-outline-secondary py-0 px-2 fw-bold"
                             onClick={() =>
                               handleQuantityChange(selectedOrder.id, idx, -1)
-                            }
-                          >
+                            }>
                             -
                           </button>
                           <span
                             style={{ minWidth: "20px" }}
-                            className="fw-bold"
-                          >
+                            className="fw-bold">
                             {item.quantity}
                           </span>
                           <button
                             className="btn btn-sm btn-outline-secondary py-0 px-2 fw-bold"
                             onClick={() =>
                               handleQuantityChange(selectedOrder.id, idx, 1)
-                            }
-                          >
+                            }>
                             +
                           </button>
                         </div>
@@ -375,8 +331,7 @@ export default function OrderManagement() {
                           title="Xóa sản phẩm"
                           onClick={() =>
                             handleRemoveItem(selectedOrder.id, idx)
-                          }
-                        >
+                          }>
                           <FaTrash size={12} />
                         </Button>
                       </td>
@@ -403,8 +358,7 @@ export default function OrderManagement() {
                   className="btn-sm text-dark"
                   onClick={() =>
                     handleUpdateStatus(selectedOrder.id, "PENDING")
-                  }
-                >
+                  }>
                   Chờ xác nhận
                 </Button>
                 <Button
@@ -412,8 +366,7 @@ export default function OrderManagement() {
                   className="btn-sm text-white"
                   onClick={() =>
                     handleUpdateStatus(selectedOrder.id, "SHIPPING")
-                  }
-                >
+                  }>
                   Đang giao
                 </Button>
                 <Button
@@ -421,8 +374,7 @@ export default function OrderManagement() {
                   className="btn-sm"
                   onClick={() =>
                     handleUpdateStatus(selectedOrder.id, "DELIVERED")
-                  }
-                >
+                  }>
                   Đã giao
                 </Button>
                 <Button
@@ -430,8 +382,7 @@ export default function OrderManagement() {
                   className="btn-sm"
                   onClick={() =>
                     handleUpdateStatus(selectedOrder.id, "CANCELLED")
-                  }
-                >
+                  }>
                   Hủy đơn
                 </Button>
               </div>
@@ -451,8 +402,7 @@ export default function OrderManagement() {
         <div
           className="modal d-block"
           tabIndex="-1"
-          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
-        >
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header border-bottom">
@@ -463,27 +413,25 @@ export default function OrderManagement() {
                   type="button"
                   className="btn-close"
                   onClick={cancelRemoveItem}
-                  aria-label="Close"
-                ></button>
+                  aria-label="Close"></button>
               </div>
               <div className="modal-body">
                 <p className="mb-0">
-                  Bạn có chắc muốn xóa <strong>{itemToRemove?.itemName}</strong> khỏi đơn hàng?
+                  Bạn có chắc muốn xóa <strong>{itemToRemove?.itemName}</strong>{" "}
+                  khỏi đơn hàng?
                 </p>
               </div>
               <div className="modal-footer border-top">
                 <button
                   type="button"
                   className="btn btn-secondary"
-                  onClick={cancelRemoveItem}
-                >
+                  onClick={cancelRemoveItem}>
                   Hủy
                 </button>
                 <button
                   type="button"
                   className="btn btn-warning text-dark"
-                  onClick={confirmRemoveItem}
-                >
+                  onClick={confirmRemoveItem}>
                   <FaTrash className="me-2" /> Xóa sản phẩm
                 </button>
               </div>

@@ -2,25 +2,13 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "/",
-  timeout: 10000,
+  timeout: 3000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// <<<<<<< HEAD
-// // Request interceptor
-// api.interceptors.request.use(
-//   (config) => {
-//     // Lấy auth data từ localStorage - nếu cần token, sỞf thêm ở đây
-//     const auth = localStorage.getItem("auth");
-//     if (auth) {
-//       try {
-//         const parsed = JSON.parse(auth);
-//         // Nếu backend cần JWT, thêm: config.headers.Authorization = `Bearer ${parsed.token}`;
-//       } catch (e) {
-//         // ignore
-//       }
+
 function getStoredToken() {
   // Preferred storage (per authSlice): localStorage["auth"] = { user, token, role }
   try {
@@ -47,7 +35,7 @@ api.interceptors.request.use(
     return config;
   },
   (error) => Promise.reject(error),
-);
+);  
 
 // Response interceptor
 api.interceptors.response.use(

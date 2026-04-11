@@ -8,7 +8,7 @@ import {
   FaUser,
   FaArrowRightFromBracket,
 } from "react-icons/fa6";
-import { FiPhoneCall, FiMapPin, FiSearch } from "react-icons/fi";
+import { FiPhoneCall, FiSearch } from "react-icons/fi";
 import { fetchProducts } from "../redux/slices/productSlice";
 import { logout } from "../redux/slices/authSlice";
 import { PATH } from "../routes/path";
@@ -20,10 +20,13 @@ export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
+  const [isSearching, setIsSearching] = useState(false);
   const inputRef = useRef(null);
   const cartItems = useSelector((state) => state.cart.items);
   const { isAuthenticated, user, role } = useSelector((state) => state.auth);
-  const { items, loading: productsLoading } = useSelector((state) => state.products);
+  const { items, loading: productsLoading } = useSelector(
+    (state) => state.products,
+  );
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleLogout = () => {
@@ -75,6 +78,7 @@ export default function Navbar() {
     navigate(`${PATH.search}?q=${encodeURIComponent(cleaned)}`);
     setSearchQuery("");
     setOpen(false);
+    setIsSearching(false);
     setActiveIndex(-1);
   };
 
@@ -83,6 +87,7 @@ export default function Navbar() {
     navigate(`/category/${category.id}`);
     setSearchQuery("");
     setOpen(false);
+    setIsSearching(false);
     setActiveIndex(-1);
   };
 
@@ -109,8 +114,11 @@ export default function Navbar() {
     }
 
     if (e.key === "Escape") {
+      setSearchQuery("");
       setOpen(false);
+      setIsSearching(false);
       setActiveIndex(-1);
+      inputRef.current?.blur();
     }
   };
 
@@ -120,7 +128,6 @@ export default function Navbar() {
         <div className="container d-flex justify-content-between align-items-center small text-white">
           <div></div>
           <div className="d-none d-md-flex gap-4 align-items-center">
-        
             {role === "ADMIN" ? (
               <Link
                 to={PATH.adminSupport}
@@ -136,15 +143,12 @@ export default function Navbar() {
             {/* Auth Section */}
             {isAuthenticated ? (
               <div className="auth-user">
-                <FaUser className="me-2" />
                 <Link
                   to={PATH.profile}
-
-
                   className="me-3"
                   style={{ color: "white", textDecoration: "none" }}>
+                  <FaUser className="me-2 mb-1" />
                   {user?.name || user?.email || "Tài khoản"}
-
                 </Link>
                 {role === "ADMIN" && (
                   <Link to={PATH.adminDashboard} className="admin-badge">
@@ -187,11 +191,18 @@ export default function Navbar() {
                 placeholder="Tìm kiếm theo tên hoa, danh mục hoa..."
                 value={searchQuery}
                 onChange={(e) => {
-                  setSearchQuery(e.target.value);
+                  const value = e.target.value;
+                  setSearchQuery(value);
+                  setOpen(true);
+                  setIsSearching(value.trim().length > 0);
+                }}
+                onFocus={() => {
                   setOpen(true);
                 }}
-                onFocus={() => setOpen(true)}
-                onBlur={() => setTimeout(() => setOpen(false), 120)}
+                onBlur={() => {
+                  setIsSearching(false);
+                  setTimeout(() => setOpen(false), 120);
+                }}
                 onKeyDown={handleSearchInputKeyDown}
                 aria-autocomplete="list"
                 aria-expanded={open}
@@ -260,35 +271,29 @@ export default function Navbar() {
                 </div>
               )}
 
-              {open &&
-                searchQuery.trim() &&
-                suggestions.length === 0 && (
-                  <div
-                    className="navbar-search-suggestions"
-                    role="listbox"
-                    id="navbar-search-suggestions">
-                    <div className="navbar-search-suggestion navbar-search-suggestion--empty">
-                      <span className="navbar-search-suggestion__name">
-                        {productsLoading
-                          ? "Đang tải dữ liệu sản phẩm…"
-                          : "Không có gợi ý phù hợp"}
-                      </span>
-                      <small className="navbar-search-suggestion__meta">
-                        Nhấn Enter hoặc bấm kính lúp để tìm “{searchQuery.trim()}”
-                      </small>
-                    </div>
+              {open && searchQuery.trim() && suggestions.length === 0 && (
+                <div
+                  className="navbar-search-suggestions"
+                  role="listbox"
+                  id="navbar-search-suggestions">
+                  <div className="navbar-search-suggestion navbar-search-suggestion--empty">
+                    <span className="navbar-search-suggestion__name">
+                      {productsLoading
+                        ? "Đang tải dữ liệu sản phẩm…"
+                        : "Không có gợi ý phù hợp"}
+                    </span>
+                    <small className="navbar-search-suggestion__meta">
+                      Nhấn Enter hoặc bấm kính lúp để tìm “{searchQuery.trim()}”
+                    </small>
                   </div>
-                )}
+                </div>
+              )}
             </form>
           </div>
 
           <div className="col-6 col-lg-2 text-lg-center">
             <div className="header-info">
-              {/* <FiMapPin /> */}
-              <div>
-                {/* <small>Giao từ</small>
-                <div>2 giờ</div> */}
-              </div>
+              <div></div>
             </div>
           </div>
 
@@ -321,16 +326,31 @@ export default function Navbar() {
             Đơn hàng
           </NavLink>
         )}
-        {isAuthenticated && (
-          <NavLink to={PATH.profile} className="header-nav__item">
-            Tài khoản
-          </NavLink>
-        )}
-        {role === "ADMIN" && (
+        {role === "ADMIN" && (!isSearching || isSearching === "") && (
           <>
             <NavLink to={PATH.adminDashboard} className="header-nav__item">
               Dashboard
             </NavLink>
+            <div className="header-nav__dropdown">
+              <span className="header-nav__item">Quản lý</span>
+              <div className="header-nav__dropdown-menu">
+                <NavLink
+                  to={PATH.adminProducts}
+                  className="header-nav__dropdown-item">
+                  Sản phẩm
+                </NavLink>
+                <NavLink
+                  to={PATH.adminOrders}
+                  className="header-nav__dropdown-item">
+                  Đơn hàng
+                </NavLink>
+                <NavLink
+                  to={PATH.adminUsers}
+                  className="header-nav__dropdown-item">
+                  Người dùng
+                </NavLink>
+              </div>
+            </div>
             <div className="header-nav__dropdown">
               <span className="header-nav__item">Thống kê</span>
               <div className="header-nav__dropdown-menu">
