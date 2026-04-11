@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -52,11 +52,30 @@ export default function Login() {
       );
 
       if (user) {
+        // Giả lập JWT token
+        const token = `jwt_token_${Date.now()}_${Math.random()}`;
+        try {
+          // Identity used for per-account profile cache (do not clear on logout).
+          localStorage.setItem("auth_identity_email", String(user.email).toLowerCase());
+        } catch {
+          // ignore
+        }
+        const cacheKey = `profile_cache_${String(user.email).toLowerCase()}`;
+        let cachedProfile = null;
+        try {
+          const raw = localStorage.getItem(cacheKey);
+          cachedProfile = raw ? JSON.parse(raw) : null;
+        } catch {
+          cachedProfile = null;
+        }
+
         dispatch(
           login({
             user: {
               email: user.email,
-              name: user.name,
+              name: cachedProfile?.name ?? user.name,
+              phone: cachedProfile?.phone,
+              address: cachedProfile?.address,
             },
             role: user.role,
           }),

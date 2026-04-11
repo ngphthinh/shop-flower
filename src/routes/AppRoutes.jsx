@@ -46,6 +46,14 @@ export default function AppRoutes() {
           }
         />
         <Route
+          path={PATH.profile}
+          element={
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
+          }
+        />
+        <Route
           path={PATH.checkout}
           element={
             <PrivateRoute>

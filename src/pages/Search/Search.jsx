@@ -25,6 +25,10 @@ export default function Search() {
     }
   }, [dispatch, items.length]);
 
+  useEffect(() => {
+    setSelectedPage(0);
+  }, [query]);
+
   // Filter products by search query
   const filteredItems = useMemo(() => {
     if (!query.trim()) {
@@ -34,9 +38,9 @@ export default function Search() {
     const lowerQuery = query.toLowerCase();
     return items.filter(
       (product) =>
-        product.name.toLowerCase().includes(lowerQuery) ||
-        product.description?.toLowerCase().includes(lowerQuery) ||
-        product.category?.name.toLowerCase().includes(lowerQuery),
+        (product.name?.toLowerCase() || "").includes(lowerQuery) ||
+        (product.description?.toLowerCase() || "").includes(lowerQuery) ||
+        (product.category?.name?.toLowerCase() || "").includes(lowerQuery),
     );
   }, [items, query]);
 
