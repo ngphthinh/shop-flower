@@ -28,6 +28,8 @@ export default function OrderManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [filterStatus, setFilterStatus] = useState("");
+  const [showConfirmRemoveModal, setShowConfirmRemoveModal] = useState(false);
+  const [itemToRemove, setItemToRemove] = useState(null);
 
   const loadOrders = () => {
     setIsLoading(true);
@@ -152,22 +154,37 @@ export default function OrderManagement() {
       return;
     }
 
-    if (window.confirm("Bạn có chắc muốn xóa sản phẩm này khỏi đơn hàng?")) {
-      const updatedItems = orderToUpdate.items.filter(
-        (_, idx) => idx !== itemIndex,
-      );
-      const newTotalPrice = updatedItems.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0,
-      );
+    setItemToRemove({ orderId, itemIndex, itemName: orderToUpdate.items[itemIndex].name });
+    setShowConfirmRemoveModal(true);
+  };
 
-      saveOrderChanges({
-        ...orderToUpdate,
-        items: updatedItems,
-        totalPrice: newTotalPrice,
-      });
-      toast.success("Đã xóa sản phẩm khỏi đơn.");
+  const confirmRemoveItem = () => {
+    if (itemToRemove) {
+      const orderToUpdate = orders.find((o) => o.id === itemToRemove.orderId);
+      if (orderToUpdate) {
+        const updatedItems = orderToUpdate.items.filter(
+          (_, idx) => idx !== itemToRemove.itemIndex,
+        );
+        const newTotalPrice = updatedItems.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0,
+        );
+
+        saveOrderChanges({
+          ...orderToUpdate,
+          items: updatedItems,
+          totalPrice: newTotalPrice,
+        });
+        toast.success("Đã xóa sản phẩm khỏi đơn.");
+        setShowConfirmRemoveModal(false);
+        setItemToRemove(null);
+      }
     }
+  };
+
+  const cancelRemoveItem = () => {
+    setShowConfirmRemoveModal(false);
+    setItemToRemove(null);
   };
 
   const filteredOrders = orders.filter(
@@ -428,6 +445,52 @@ export default function OrderManagement() {
           </div>
         )}
       </Modal>
+
+      {/* Confirmation Modal for Removing Item */}
+      {showConfirmRemoveModal && (
+        <div
+          className="modal d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header border-bottom">
+                <h5 className="modal-title text-warning fw-bold">
+                  <FaTrash className="me-2" /> Xác nhận xóa sản phẩm
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={cancelRemoveItem}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p className="mb-0">
+                  Bạn có chắc muốn xóa <strong>{itemToRemove?.itemName}</strong> khỏi đơn hàng?
+                </p>
+              </div>
+              <div className="modal-footer border-top">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={cancelRemoveItem}
+                >
+                  Hủy
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-warning text-dark"
+                  onClick={confirmRemoveItem}
+                >
+                  <FaTrash className="me-2" /> Xóa sản phẩm
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

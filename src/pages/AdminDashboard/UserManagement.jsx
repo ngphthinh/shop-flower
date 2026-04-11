@@ -32,6 +32,8 @@ export default function UserManagement() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -154,14 +156,25 @@ export default function UserManagement() {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm("Bạn có chắc chắn muốn xóa tài khoản này vĩnh viễn?")) {
-      const updatedUsers = users.filter((u) => u.id !== id);
+    const userToDeleteData = users.find((u) => u.id === id);
+    setUserToDelete(userToDeleteData);
+    setShowConfirmModal(true);
+  };
 
+  const confirmDelete = () => {
+    if (userToDelete) {
+      const updatedUsers = users.filter((u) => u.id !== userToDelete.id);
       setUsers(updatedUsers);
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedUsers));
-
       toast.success("Đã xóa tài khoản!");
+      setShowConfirmModal(false);
+      setUserToDelete(null);
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmModal(false);
+    setUserToDelete(null);
   };
 
   return (
@@ -326,6 +339,55 @@ export default function UserManagement() {
               )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div
+          className="modal d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header border-bottom">
+                <h5 className="modal-title text-danger fw-bold">
+                  <FaTrash className="me-2" /> Xác nhận xóa
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={cancelDelete}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p className="mb-0">
+                  Bạn có chắc chắn muốn xóa tài khoản của <strong>{userToDelete?.name}</strong> vĩnh viễn?
+                </p>
+                <p className="text-muted small mt-2 mb-0">
+                  Email: <code>{userToDelete?.email}</code>
+                </p>
+              </div>
+              <div className="modal-footer border-top">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={cancelDelete}
+                >
+                  Hủy
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={confirmDelete}
+                >
+                  <FaTrash className="me-2" /> Xóa vĩnh viễn
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 

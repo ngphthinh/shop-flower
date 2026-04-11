@@ -37,6 +37,8 @@ export default function ProductManagement() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -149,23 +151,32 @@ export default function ProductManagement() {
   };
 
   const handleDelete = (id) => {
-    if (
-      window.confirm(
-        "Bạn có chắc chắn muốn xóa sản phẩm này? Hành động này không thể hoàn tác.",
-      )
-    ) {
+    const product = products.find((p) => p.id === id);
+    setProductToDelete(product);
+    setShowConfirmModal(true);
+  };
+
+  const confirmDelete = () => {
+    if (productToDelete) {
       try {
-        const updatedProducts = products.filter((p) => p.id !== id);
+        const updatedProducts = products.filter((p) => p.id !== productToDelete.id);
         setProducts(updatedProducts);
         localStorage.setItem(
           LOCAL_STORAGE_KEY,
           JSON.stringify(updatedProducts),
         );
         toast.success("Đã xóa sản phẩm!");
+        setShowConfirmModal(false);
+        setProductToDelete(null);
       } catch (error) {
         toast.error("Không thể xóa sản phẩm lúc này!");
       }
     }
+  };
+
+  const cancelDelete = () => {
+    setShowConfirmModal(false);
+    setProductToDelete(null);
   };
 
   return (
@@ -322,6 +333,55 @@ export default function ProductManagement() {
               )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {showConfirmModal && (
+        <div
+          className="modal d-block"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header border-bottom">
+                <h5 className="modal-title text-danger fw-bold">
+                  <FaTrash className="me-2" /> Xác nhận xóa
+                </h5>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={cancelDelete}
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                <p className="mb-2">
+                  Bạn có chắc chắn muốn xóa sản phẩm <strong>{productToDelete?.name}</strong>?
+                </p>
+                <p className="text-muted small mb-0">
+                  Hành động này không thể hoàn tác.
+                </p>
+              </div>
+              <div className="modal-footer border-top">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={cancelDelete}
+                >
+                  Hủy
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  onClick={confirmDelete}
+                >
+                  <FaTrash className="me-2" /> Xóa sản phẩm
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
