@@ -25,7 +25,6 @@ export default function OrderDetail() {
     async function load() {
       setLoading(true);
       try {
-        // load products for name/price lookup
         const prods = await productService.getProducts();
         const prodArray = Array.isArray(prods) ? prods : [];
         const map = prodArray.reduce((acc, p) => {
@@ -35,13 +34,11 @@ export default function OrderDetail() {
         if (!mounted) return;
         setProductsMap(map);
 
-        // try backend first for order
         try {
           const data = await userService.getOrder(id);
           if (!mounted) return;
           setOrder(data);
         } catch (err) {
-          // fallback to localStorage
           const stored = localStorage.getItem("mock_orders");
           const mock = stored ? JSON.parse(stored) : [];
           const found = (mock || []).find((o) => String(o.id) === String(id) || String(o._id) === String(id));
@@ -182,10 +179,7 @@ export default function OrderDetail() {
       </div>
 
       <div>
-        <button className="btn btn-secondary me-2" onClick={() => navigate(-1)}>← Quay lại</button>
-        {order.status !== "paid" && (
-          <button className="btn btn-success" onClick={() => alert('Tính năng đánh dấu đã thanh toán tạm thời chưa được cài đặt trong demo.')}>Đánh dấu đã thanh toán</button>
-        )}
+        <button className="btn btn-secondary" onClick={() => navigate(-1)}>← Quay lại</button>
       </div>
     </div>
   );
