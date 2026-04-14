@@ -5,6 +5,7 @@ import { FaEye, FaSearch, FaTrash } from "react-icons/fa";
 import { PATH } from "../../routes/path";
 import Modal from "../../components/Modal/Modal";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import Button from "../../components/Button/Button";
 import { formatDate } from "../../utils/formatDate";
 import "../AdminDashboard/AdminDashboard.css";
 
