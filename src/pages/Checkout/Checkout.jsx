@@ -39,7 +39,8 @@ export default function Checkout() {
   }, [items]);
 
   const nameValid = name.trim().length > 0;
-  const phoneValid = /^\d{9,11}$/.test(phone.trim());
+  // Accept Vietnamese mobile prefixes: 03,05,07,08,09 and total 10 digits
+  const phoneValid = /^(0(3|5|7|8|9))[0-9]{8}$/.test(phone.trim());
   const addressValid = address.trim().length > 0;
   const isFormValid = nameValid && phoneValid && addressValid && items.length > 0;
 
@@ -207,7 +208,7 @@ export default function Checkout() {
                     onBlur={() => setPhoneTouched(true)}
                   />
                   {phoneTouched && !phoneValid && (
-                    <div className="invalid-feedback">Số điện thoại không hợp lệ (9-11 chữ số).</div>
+                    <div className="invalid-feedback">Số điện thoại không hợp lệ (đầu số 03/05/07/08/09 và 10 chữ số).</div>
                   )}
                 </div>
 
@@ -285,19 +286,23 @@ export default function Checkout() {
                     ← Quay lại giỏ hàng
                   </button>
 
-                  <button
-                    className="btn btn-success"
-                    type="submit"
-                    disabled={!isFormValid || !paymentMethod || isProcessing}
-                  >
-                    {isProcessing
-                      ? "Đang xử lý..."
-                      : !paymentMethod
-                      ? "Chọn phương thức thanh toán"
-                      : paymentMethod === "bank"
-                      ? `Tôi đã chuyển khoản — Hoàn tất đơn`
-                      : `Thanh toán ${formatCurrency(total)}`}
-                  </button>
+                  {paymentMethod === "bank" ? (
+                    <div className="text-end">
+                      <div className="small text-info">Bạn đã chọn chuyển khoản. Hệ thống sẽ tự động xác nhận thanh toán trong vài giây sau khi quét mã QR.</div>
+                    </div>
+                  ) : (
+                    <button
+                      className="btn btn-success"
+                      type="submit"
+                      disabled={!isFormValid || !paymentMethod || isProcessing}
+                    >
+                      {isProcessing
+                        ? "Đang xử lý..."
+                        : !paymentMethod
+                        ? "Chọn phương thức thanh toán"
+                        : `Thanh toán ${formatCurrency(total)}`}
+                    </button>
+                  )}
                 </div>
               </form>
             </div>
