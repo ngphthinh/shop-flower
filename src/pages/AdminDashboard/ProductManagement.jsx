@@ -5,6 +5,7 @@ import { FaSearch, FaPlus, FaEdit, FaTrash } from "react-icons/fa";
 import { PATH } from "../../routes/path";
 import Modal from "../../components/Modal/Modal.jsx";
 import LoadingSpinner from "../../components/LoadingSpinner.jsx";
+import Button from "../../components/Button/Button";
 
 import "./ProductManagement.css";
 import hoaNaiveImg from "../../assets/naivie.jpg";
